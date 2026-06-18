@@ -7,7 +7,6 @@
 
     <!-- ===================================================== -->
     <!-- 🔍 SEO & SOCIAL PREVIEW (OPEN GRAPH) -->
-    <!-- ✏️ GANTI bagian bertanda "GANTI" di bawah sesuai web-mu -->
     <!-- ===================================================== -->
     <meta name="description" content="rgch.e — Jasa pembuatan thumbnail & 3D render Minecraft (SMP, Bedwars, Minigames). Kualitas tinggi, proses cepat, harga terjangkau.">
 
@@ -16,16 +15,16 @@
     <meta property="og:site_name" content="rgch.e">
     <meta property="og:title" content="rgch.e | Minecraft Thumbnail Commissions">
     <meta property="og:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
-    <meta property="og:image" content="https://rgch.vercel.app/P2.png"> <!-- ✏️ GANTI: pakai URL absolut (https://...) thumbnail terbaikmu, idealnya 1200x630px -->
+    <meta property="og:image" content="https://rgch.vercel.app/P2.png"> 
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://rgch.vercel.app/"> <!-- ✏️ GANTI dengan alamat web-mu setelah online -->
+    <meta property="og:url" content="https://rgch.vercel.app/"> 
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="rgch.e | Minecraft Thumbnail Commissions">
     <meta name="twitter:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
-    <meta name="twitter:image" content="https://rgch.vercel.app/P1.png"> <!-- ✏️ GANTI juga di sini -->
+    <meta name="twitter:image" content="https://rgch.vercel.app/P1.png">
 
     <meta name="theme-color" content="#0d0614">
 
@@ -251,10 +250,7 @@
         .close-lightbox { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; transition: color 0.3s; }
         .close-lightbox:hover { color: var(--primary-neon); }
 
-        footer { font-size: 0.75rem; color: #6b7280; text-align: center; width: 100%; padding-top: 10px; flex-shrink: 0; }
-        .footer-links { margin-top: 6px; }
-        .footer-link { color: var(--primary-neon); cursor: pointer; text-decoration: underline; transition: color 0.3s; }
-        .footer-link:hover { color: var(--text-main); }
+        footer { font-size: 0.75rem; color: #6b7280; text-align: center; width: 100%; padding-top: 10px; flex-shrink: 0; margin-bottom: 10px; }
 
         /* --- LANGUAGE SWITCHER --- */
         .lang-switcher {
@@ -274,6 +270,22 @@
             box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
         }
         .lang-divider { color: rgba(255,255,255,0.2); font-size: 0.7rem; }
+
+        /* --- TOS BUTTON FIXED (KIRI ATAS) --- */
+        .tos-btn-fixed {
+            position: fixed; top: 14px; left: 14px; z-index: 500;
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(26, 16, 37, 0.7); backdrop-filter: blur(8px);
+            border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 50px;
+            padding: 5px 12px; cursor: pointer; color: var(--text-main);
+            font-size: 0.75rem; font-weight: 700; transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+        }
+        .tos-btn-fixed:hover {
+            background: var(--primary-neon); color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+        .tos-btn-fixed i { font-size: 0.8rem; }
 
         /* --- TERMS OF SERVICE MODAL --- */
         .tos-overlay {
@@ -315,6 +327,11 @@
         <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
         <img id="lightbox-img" src="" alt="Preview">
     </div>
+
+    <!-- 📜 TOMBOL TOS FIXED KIRI ATAS -->
+    <button class="tos-btn-fixed" onclick="openTos()">
+        <i class="fa-solid fa-file-contract"></i> T.O.S
+    </button>
 
     <!-- 🌐 LANGUAGE SWITCHER -->
     <div class="lang-switcher" id="lang-switcher">
@@ -400,7 +417,6 @@
 
         <footer>
             ( Designed by rgch.e )
-            <div class="footer-links"><span class="footer-link" onclick="openTos()" data-i18n="tos_link">Terms of Service</span></div>
         </footer>
     </div>
 
@@ -754,8 +770,7 @@
             renderTos();
         }
 
-        // INISIALISASI BAHASA DEFAULT (ganti 'id' jadi 'en' kalau mau default Bahasa Inggris)
-        setLanguage('id');
+            setLanguage('id');
     </script>
 </body>
 </html>
