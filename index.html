@@ -329,7 +329,7 @@
     </div>
 
     <!-- 📜 TOMBOL TOS FIXED KIRI ATAS -->
-    <button class="tos-btn-fixed" onclick="openTos()">
+    <button id="tos-btn" class="tos-btn-fixed" onclick="openTos()">
         <i class="fa-solid fa-file-contract"></i> T.O.S
     </button>
 
@@ -714,11 +714,17 @@
             let pages = document.querySelectorAll('.page-content');
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
+            
+            // Sembunyikan tombol T.O.S saat masuk ke menu lain
+            document.getElementById('tos-btn').style.display = 'none';
         }
         function closePages() {
             let pages = document.querySelectorAll('.page-content');
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById('main-menu').classList.remove('hidden');
+            
+            // Munculkan kembali tombol T.O.S saat di beranda
+            document.getElementById('tos-btn').style.display = 'flex';
         }
         function openLightbox(imgSrc) {
             document.getElementById('lightbox-img').src = imgSrc; 
@@ -770,7 +776,8 @@
             renderTos();
         }
 
-            setLanguage('id');
+        // INISIALISASI BAHASA DEFAULT (ganti 'id' jadi 'en' kalau mau default Bahasa Inggris)
+        setLanguage('id');
     </script>
 </body>
 </html>
