@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rgch.e | Minecraft Thumbnail Commissions</title>
+
+    <!-- ===================================================== -->
+    <!-- 🔍 SEO & SOCIAL PREVIEW (OPEN GRAPH) -->
+    <!-- ✏️ GANTI bagian bertanda "GANTI" di bawah sesuai web-mu -->
+    <!-- ===================================================== -->
+    <meta name="description" content="rgch.e — Jasa pembuatan thumbnail & 3D render Minecraft (SMP, Bedwars, Minigames). Kualitas tinggi, proses cepat, harga terjangkau.">
+
+    <!-- Open Graph (dipakai Discord, WhatsApp, Facebook, dll) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="rgch.e">
+    <meta property="og:title" content="rgch.e | Minecraft Thumbnail Commissions">
+    <meta property="og:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
+    <meta property="og:image" content="https://rgch.vercel.app/P2.png"> <!-- ✏️ GANTI: pakai URL absolut (https://...) thumbnail terbaikmu, idealnya 1200x630px -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rgch.vercel.app/"> <!-- ✏️ GANTI dengan alamat web-mu setelah online -->
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="rgch.e | Minecraft Thumbnail Commissions">
+    <meta name="twitter:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
+    <meta name="twitter:image" content="https://rgch.vercel.app/P1.png"> <!-- ✏️ GANTI juga di sini -->
+
+    <meta name="theme-color" content="#0d0614">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0614; 
+            --primary-neon: #a855f7; 
+            --text-main: #ffffff;
+            --color-open: #22c55e; /* Hijau neon */
+            --color-closed: #ef4444; /* Merah neon */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        button, a { outline: none !important; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        /* --- PRELOADER (LOADING SCREEN) --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .pulse-logo {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-neon);
+            text-transform: lowercase;
+            letter-spacing: 2px;
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            from { text-shadow: 0 0 10px rgba(168,85,247,0.5); transform: scale(1); }
+            to { text-shadow: 0 0 30px rgba(168,85,247,0.8), 0 0 50px rgba(168,85,247,0.5); transform: scale(1.05); }
+        }
+
+        /* --- EFEK PARTIKEL --- */
+        .particles-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 6px; height: 25px;
+            background-color: var(--primary-neon);
+            border-radius: 10px;
+            transform: rotate(30deg);
+            opacity: 0.6;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(30deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(30deg); opacity: 0; }
+        }
+
+        .container {
+            width: 100%; max-width: 600px;
+            padding: 30px 20px;
+            display: flex; flex-direction: column;
+            align-items: center; height: 100%;
+            justify-content: space-between;
+        }
+
+        /* --- HEADER & STATUS BADGE --- */
+        .brand-title {
+            font-size: 3.2rem; font-weight: 800;
+            color: var(--primary-neon); text-transform: lowercase;
+            letter-spacing: 2px; margin-top: 15px; margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3);
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 15px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600;
+            border: 1px solid; margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* --- MENU BUTTONS --- */
+        .nav-links { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+        .btn-link {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 12px 20px;
+            background-color: transparent; border: 2px solid var(--text-main);
+            border-radius: 50px; color: var(--text-main);
+            text-decoration: none; font-size: 1.05rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-link i { margin-right: 10px; }
+        .btn-link:hover {
+            background-color: var(--text-main); color: var(--bg-color);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); transform: translateY(-2px);
+        }
+
+        /* --- PAGE SYSTEM & SCROLL --- */
+        .page-content {
+            display: none; width: 100%; height: 100%; 
+            flex-direction: column; animation: fadeIn 0.3s ease forwards; overflow: hidden; 
+        }
+        .page-content.active { display: flex; }
+        .scrollable-content {
+            flex: 1; min-height: 0; overflow-y: auto; 
+            padding-right: 5px; margin-bottom: 15px; user-select: text; 
+        }
+        .scrollable-content::-webkit-scrollbar { width: 6px; }
+        .scrollable-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .scrollable-content::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
+
+        #main-menu {
+            display: flex; flex-direction: column; align-items: center;
+            width: 100%; height: 100%; justify-content: center;
+            animation: fadeIn 0.3s ease forwards;
+        }
+        #main-menu.hidden { display: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* --- TOMBOL KEMBALI --- */
+        .btn-back {
+            align-self: flex-start; background: none; border: none;
+            color: var(--primary-neon); font-size: 1.1rem; font-weight: 600;
+            cursor: pointer; margin-bottom: 15px; display: flex; align-items: center;
+            gap: 8px; padding: 5px 0; flex-shrink: 0; 
+        }
+        .btn-back:hover { color: var(--text-main); }
+
+        .section-title {
+            font-size: 1.4rem; margin-bottom: 15px; color: var(--text-main);
+            border-bottom: 2px solid var(--primary-neon); padding-bottom: 5px; flex-shrink: 0;
+        }
+
+        /* --- PORTFOLIO (GALLERY) --- */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding-bottom: 20px; }
+        .thumb-card {
+            background: #000; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.3); cursor: pointer; transition: transform 0.3s;
+        }
+        .thumb-card:hover { transform: scale(1.03); border-color: var(--primary-neon); }
+        .thumb-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; display: block; }
+
+        /* --- REVIEWS --- */
+        .review-card {
+            background: #1a1025; padding: 18px; border-radius: 12px;
+            border-left: 4px solid var(--primary-neon); margin-bottom: 15px;
+        }
+        .stars { color: #facc15; margin-bottom: 10px; font-size: 0.85rem; }
+        .review-text { font-size: 0.9rem; font-style: italic; color: #d1d5db; line-height: 1.5; }
+        .reviewer-info { display: flex; align-items: center; gap: 10px; margin-top: 15px; }
+        .reviewer-pfp { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(168, 85, 247, 0.5); }
+        .reviewer-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+
+        /* --- ABOUT & FAQ ACCORDION --- */
+        .about-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; margin-top: 10px; }
+        .about-pfp {
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--primary-neon); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); margin-bottom: 15px;
+        }
+        .about-title { font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
+        .info-box { background: #1a1025; padding: 20px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3); line-height: 1.6; font-size: 0.95rem; text-align: center; margin-bottom: 25px; }
+        
+        .faq-item { background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 10px; margin-bottom: 10px; overflow: hidden; transition: all 0.3s ease; }
+        .faq-question { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+        .faq-icon { transition: transform 0.3s ease; color: var(--primary-neon); }
+        .faq-answer { max-height: 0; padding: 0 15px; font-size: 0.85rem; color: #d1d5db; transition: max-height 0.3s ease-out, padding 0.3s ease; opacity: 0; }
+        
+        .faq-item.active { border-color: var(--primary-neon); box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 15px; opacity: 1; transition: max-height 0.4s ease-in, opacity 0.4s ease; }
+
+        /* --- CONTACT & CLICK TO COPY --- */
+        .image-content { width: 100%; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3); display: block; margin-bottom: 20px;}
+        .copy-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .copy-btn {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.5);
+            padding: 12px 18px; border-radius: 10px; color: #fff;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .copy-btn:hover { background: #2a1b38; border-color: var(--primary-neon); }
+        .copy-btn i { color: var(--primary-neon); font-size: 1.1rem; }
+        .copy-btn.copied { border-color: var(--color-open); color: var(--color-open); }
+        .copy-btn.copied i { color: var(--color-open); }
+
+        /* --- LIGHTBOX --- */
+        #lightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(13, 6, 20, 0.95); z-index: 9999; justify-content: center; align-items: center; animation: fadeIn 0.3s ease;
+        }
+        #lightbox img { max-width: 90%; max-height: 80vh; border-radius: 10px; border: 2px solid var(--primary-neon); box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; transition: color 0.3s; }
+        .close-lightbox:hover { color: var(--primary-neon); }
+
+        footer { font-size: 0.75rem; color: #6b7280; text-align: center; width: 100%; padding-top: 10px; flex-shrink: 0; }
+        .footer-links { margin-top: 6px; }
+        .footer-link { color: var(--primary-neon); cursor: pointer; text-decoration: underline; transition: color 0.3s; }
+        .footer-link:hover { color: var(--text-main); }
+
+        /* --- LANGUAGE SWITCHER --- */
+        .lang-switcher {
+            position: fixed; top: 14px; right: 14px; z-index: 500;
+            display: flex; align-items: center; gap: 4px;
+            background: rgba(26, 16, 37, 0.7); backdrop-filter: blur(8px);
+            border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 50px;
+            padding: 5px 6px;
+        }
+        .lang-btn {
+            background: none; border: none; color: #9ca3af; cursor: pointer;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+            padding: 4px 9px; border-radius: 20px; transition: all 0.25s ease;
+        }
+        .lang-btn.active {
+            color: var(--bg-color); background: var(--primary-neon);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+        .lang-divider { color: rgba(255,255,255,0.2); font-size: 0.7rem; }
+
+        /* --- TERMS OF SERVICE MODAL --- */
+        .tos-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(13, 6, 20, 0.85); backdrop-filter: blur(4px);
+            z-index: 9998; justify-content: center; align-items: center;
+            animation: fadeIn 0.3s ease; padding: 20px;
+        }
+        .tos-panel {
+            background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); border-radius: 16px;
+            width: 100%; max-width: 480px; max-height: 80vh;
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .tos-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px; border-bottom: 1px solid rgba(168, 85, 247, 0.3); flex-shrink: 0;
+        }
+        .tos-header h3 { font-size: 1.05rem; color: var(--text-main); }
+        .close-tos { color: #fff; font-size: 1.7rem; cursor: pointer; line-height: 1; transition: color 0.3s; }
+        .close-tos:hover { color: var(--primary-neon); }
+        .tos-body { padding: 18px 20px; overflow-y: auto; user-select: text; font-size: 0.85rem; line-height: 1.6; color: #d1d5db; }
+        .tos-body::-webkit-scrollbar { width: 6px; }
+        .tos-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .tos-body::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
+        .tos-body h4 { color: var(--primary-neon); margin-top: 14px; margin-bottom: 6px; font-size: 0.9rem; }
+        .tos-body h4:first-child { margin-top: 0; }
+        .tos-body p, .tos-body li { margin-bottom: 8px; }
+        .tos-body ul { padding-left: 18px; }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="pulse-logo">rgch.e</div>
+    </div>
+
+    <div id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Preview">
+    </div>
+
+    <!-- 🌐 LANGUAGE SWITCHER -->
+    <div class="lang-switcher" id="lang-switcher">
+        <button class="lang-btn" data-lang="id" onclick="setLanguage('id')">ID</button>
+        <span class="lang-divider">/</span>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <!-- 📜 TERMS OF SERVICE MODAL -->
+    <div id="tos-modal" class="tos-overlay" onclick="if(event.target===this) closeTos()">
+        <div class="tos-panel">
+            <div class="tos-header">
+                <h3 data-i18n="tos_title">Terms of Service</h3>
+                <span class="close-tos" onclick="closeTos()">&times;</span>
+            </div>
+            <div class="tos-body" id="tos-body-content"></div>
+        </div>
+    </div>
+
+    <div class="particles-container" id="particles"></div>
+
+    <div class="container">
+        
+        <div id="main-menu">
+            <h1 class="brand-title">rgch.e</h1>
+            <div id="status-badge" class="status-badge"></div>
+
+            <div class="nav-links" style="margin-bottom: 20px; width: 100%;">
+                <button onclick="openPage('page-work')" class="btn-link"><i class="fa-solid fa-paintbrush"></i> <span data-i18n="nav_work">Work</span></button>
+                <button onclick="openPage('page-contact')" class="btn-link"><i class="fa-solid fa-phone"></i> <span data-i18n="nav_contact">Contact</span></button>
+                <button onclick="openPage('page-reviews')" class="btn-link"><i class="fa-solid fa-star"></i> <span data-i18n="nav_reviews">Reviews</span></button>
+                <button onclick="openPage('page-prices')" class="btn-link"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="nav_prices">Prices</span></button>
+                <button onclick="openPage('page-about')" class="btn-link"><i class="fa-solid fa-circle-question"></i> <span data-i18n="nav_about">About</span></button>
+            </div>
+        </div>
+
+        <div id="page-work" class="page-content">
+            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <h2 class="section-title" data-i18n="title_work">Recent Works</h2>
+            <div class="scrollable-content">
+                <div class="gallery" id="portfolio-gallery"></div>
+            </div>
+        </div>
+
+        <div id="page-reviews" class="page-content">
+            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <h2 class="section-title" data-i18n="title_reviews">Client Reviews</h2>
+            <div class="scrollable-content" id="reviews-container"></div>
+        </div>
+
+        <div id="page-prices" class="page-content">
+            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <h2 class="section-title" data-i18n="title_prices">Commission Prices</h2>
+            <div class="scrollable-content">
+                <img src="price.jpg" alt="Pricelist" class="image-content">
+            </div>
+        </div>
+
+        <div id="page-about" class="page-content">
+            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <div class="scrollable-content">
+                <div class="about-header">
+                    <img src="pfpgw.png" alt="rgch.e Profile" class="about-pfp">
+                    <h3 class="about-title">rgch.e</h3>
+                </div>
+                <div class="info-box">
+                    <p id="about-bio-text">Halo! Aku adalah desainer grafis yang fokus pada pembuatan <strong>3D render</strong> dan <strong>thumbnail Minecraft</strong>. Aku udah sering ngerjain project buat Youtuber SMP, Bedwars, dan minigames lainnya.</p>
+                </div>
+                
+                <h2 class="section-title" style="font-size: 1.2rem;">F.A.Q</h2>
+                <div id="faq-container"></div>
+            </div>
+        </div>
+
+        <div id="page-contact" class="page-content">
+            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <h2 class="section-title" data-i18n="title_contact">Contact</h2>
+            <div class="scrollable-content">
+                
+                <div class="copy-actions" id="contact-container"></div>
+            </div>
+        </div>
+
+        <footer>
+            ( Designed by rgch.e )
+            <div class="footer-links"><span class="footer-link" onclick="openTos()" data-i18n="tos_link">Terms of Service</span></div>
+        </footer>
+    </div>
+
+    <script>
+        // 1. STATUS KOMISI (Mengambil dari file status.json di Vercel)
+        let statusKomisi = "LOADING..."; // Status sementara saat web baru dimuat
+
+        async function loadStatusKomisi() {
+            try {
+                // Membaca file status.json
+                const response = await fetch('status.json');
+                
+                if (!response.ok) throw new Error("Gagal mengambil data");
+                
+                const data = await response.json();
+                statusKomisi = data.status; // Mengganti status sesuai isi JSON
+                
+            } catch (error) {
+                console.error("Error loading status:", error);
+                statusKomisi = "CLOSED"; // Fallback (status cadangan) jika JSON gagal dimuat
+            } finally {
+                // Render ulang badge setelah data didapatkan atau gagal
+                renderStatusBadge();
+            }
+        }
+
+        // Panggil fungsi untuk mengambil status
+        loadStatusKomisi();
+
+        // 2. KONTAK KAMU (Untuk fitur Click-to-Copy)
+        const kontakDiscord = "joeladri_";
+        const kontakInstagram = "rgch.e";
+
+        // 3. DAFTAR F.A.Q (Tanya Jawab)
+        // ✏️ Field "EN" bersifat opsional, untuk versi Bahasa Inggris saat language switcher diklik
+        const daftarFaq = [
+            { 
+                tanya: "Pembayaran bisa lewat apa aja?", 
+                jawab: "Saat ini aku menerima pembayaran via PayPal, Qris.",
+                tanyaEN: "What payment methods do you accept?",
+                jawabEN: "I currently accept payments via Paypal, Qris."
+            },
+            { 
+                tanya: "Pengerjaan berapa lama bang?", 
+                jawab: "Normalnya 2-4 hari tergantung antrean dan seberapa rumit request pose karakternya.",
+                tanyaEN: "How long does the work take?",
+                jawabEN: "Usually 2-4 days, depending on the queue and how complex the character pose request is."
+            },
+            { 
+                tanya: "Bisa revisi ga?", 
+                jawab: "Bisa! Revisi minor (seperti ubah lighting/warna) maksimal 5x. Untuk revisi rubah pose total, akan dikenakan biaya tambahan ya.",
+                tanyaEN: "Can I get revisions?",
+                jawabEN: "Yes! Minor revisions (like lighting/color changes) are free up to 2 times. A full pose change will incur an extra fee."
+            }
+        ];
+
+        // 4. DATA ULASAN KLIEN
+        // ✏️ Field "teksEN" opsional, untuk versi Bahasa Inggris (nama tetap sama)
+        const daftarUlasan = [];
+
+        // 5. BAHASA (ID/ENG) & TERMS OF SERVICE
+        // ✏️ Ubah teks di bawah sesuai kebutuhanmu
+        const translations = {
+            id: {
+                nav_work: "Karya", nav_contact: "Kontak", nav_reviews: "Ulasan",
+                nav_prices: "Harga", nav_about: "Tentang", back: "Kembali",
+                title_work: "Karya Terbaru", title_reviews: "Ulasan Klien",
+                title_prices: "Harga Komisi", title_contact: "Kontak",
+                tos_link: "Ketentuan Layanan", tos_title: "Ketentuan Layanan",
+                copied: "Tersalin!", badge_open: "KOMISI BUKA", badge_closed: "KOMISI TUTUP",
+                badge_prefix: "KOMISI"
+            },
+            en: {
+                nav_work: "Work", nav_contact: "Contact", nav_reviews: "Reviews",
+                nav_prices: "Prices", nav_about: "About", back: "Back",
+                title_work: "Recent Works", title_reviews: "Client Reviews",
+                title_prices: "Commission Prices", title_contact: "Contact",
+                tos_link: "Terms of Service", tos_title: "Terms of Service",
+                copied: "Copied!", badge_open: "COMMISSIONS OPEN", badge_closed: "COMMISSIONS CLOSED",
+                badge_prefix: "COMMISSIONS"
+            }
+        };
+
+        // ✏️ Bio singkat di halaman About (boleh pakai tag <strong>)
+        const aboutBio = {
+            id: `Halo! Aku adalah desainer grafis yang fokus pada pembuatan <strong>3D render</strong> dan <strong>thumbnail Minecraft</strong>. Aku udah sering ngerjain project buat Youtuber SMP, Bedwars, dan minigames lainnya.`,
+            en: `Hi! I'm a graphic designer focused on <strong>3D renders</strong> and <strong>Minecraft thumbnails</strong>. I've worked on plenty of projects for SMP, Bedwars, and other minigame YouTubers.`
+        };
+
+        // ✏️ Isi Ketentuan Layanan — sesuaikan dengan aturan bisnismu sendiri
+        const tosContent = {
+            id: `
+                <h4>1. Pemesanan</h4>
+                <p>Pesanan dianggap sah setelah pembayaran (DP/lunas) dikonfirmasi. Detail request (referensi, pose, warna) wajib disertakan saat checkout.</p>
+                <h4>2. Pembayaran</h4>
+                <p>Pembayaran dapat dilakukan via Paypal, Qris. Untuk project besar, bisa DP 50% di awal dan sisanya saat hasil jadi.</p>
+                <h4>3. Waktu Pengerjaan</h4>
+                <p>Estimasi pengerjaan 2-4 hari, tergantung antrean dan kompleksitas request. Keterlambatan akan diinfokan langsung ke klien.</p>
+                <h4>4. Revisi</h4>
+                <p>Revisi minor (warna/lighting) gratis maksimal 5x. Revisi mayor (ubah pose/komposisi total) dikenakan biaya tambahan.</p>
+                <h4>5. Hak Penggunaan</h4>
+                <p>Setelah lunas, klien berhak menggunakan hasil untuk keperluan pribadi/channel. rgch.e tetap berhak menampilkan hasil di portofolio kecuali diminta sebaliknya. File mentah/sumber tidak disertakan kecuali disepakati lain.</p>
+                <h4>6. Pembatalan & Refund</h4>
+                <p>Refund penuh jika pembatalan dilakukan sebelum pengerjaan dimulai. Setelah proses berjalan, refund mengikuti progres yang sudah dikerjakan. Tidak ada refund untuk hasil yang sudah selesai dan disetujui.</p>
+                <h4>7. Larangan</h4>
+                <ul>
+                    <li>Menjual ulang hasil karya tanpa izin.</li>
+                    <li>Mengklaim hasil sebagai karya sendiri tanpa kredit/izin.</li>
+                    <li>Menggunakan hasil untuk training AI tanpa izin.</li>
+                </ul>
+                <h4>8. Perubahan Ketentuan</h4>
+                <p>Ketentuan ini dapat diperbarui sewaktu-waktu. Perubahan akan tercermin langsung pada halaman ini.</p>
+            `,
+            en: `
+                <h4>1. Ordering</h4>
+                <p>An order is valid once payment (deposit or full) is confirmed. Request details (references, pose, colors) must be provided at checkout.</p>
+                <h4>2. Payment</h4>
+                <p>Payment can be made via Paypal, Qris. For larger projects, a 50% deposit upfront is accepted, with the remainder due upon completion.</p>
+                <h4>3. Turnaround Time</h4>
+                <p>Estimated turnaround is 2-4 days, depending on the queue and complexity of the request. Delays will be communicated directly to the client.</p>
+                <h4>4. Revisions</h4>
+                <p>Minor revisions (lighting/color) are free, up to 2 times. A full pose or composition change incurs an extra fee.</p>
+                <h4>5. Usage Rights</h4>
+                <p>Once payment is complete, the client may use the result for personal/channel purposes. rgch.e retains the right to display the work in its portfolio unless requested otherwise. Raw/source files are not included unless agreed otherwise.</p>
+                <h4>6. Cancellation & Refunds</h4>
+                <p>A full refund applies if cancelled before work begins. Once work is in progress, refunds are based on progress already completed. No refunds for finished, approved work.</p>
+                <h4>7. Restrictions</h4>
+                <ul>
+                    <li>Reselling the artwork without permission.</li>
+                    <li>Claiming the artwork as your own without credit/permission.</li>
+                    <li>Using the artwork to train AI without permission.</li>
+                </ul>
+                <h4>8. Changes to Terms</h4>
+                <p>These terms may be updated at any time. Updates will be reflected directly on this page.</p>
+            `
+        };
+
+        let currentLang = 'id';
+
+        // =======================================================
+        // 🛑 JANGAN UBAH SCRIPT DI BAWAH INI KECUALI PAHAM 🛑
+        // =======================================================
+
+        // GENERATE PRELOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 1200); // Loading screen tampil 1.2 detik
+        });
+
+        // GENERATE STATUS BADGE (mengikuti bahasa aktif)
+        function renderStatusBadge() {
+            const badge = document.getElementById('status-badge');
+            const t = translations[currentLang];
+            const statusCek = statusKomisi.toUpperCase();
+
+            // Jika status OPEN atau mengandung kata "SLOT" (misal: "2 SLOTS", "1 SLOT") -> Warna Hijau
+            if(statusCek === "OPEN" || statusCek === "BUKA" || statusCek.includes("SLOT")) {
+                let textTampil = (statusCek === "OPEN" || statusCek === "BUKA") ? t.badge_open : `${t.badge_prefix} ${statusCek}`;
+                badge.innerHTML = `<div class="status-dot" style="background: var(--color-open); box-shadow: 0 0 10px var(--color-open);"></div> ${textTampil}`;
+                badge.style.borderColor = 'rgba(34, 197, 94, 0.4)';
+                badge.style.color = 'var(--color-open)';
+            } 
+            // Jika status CLOSED -> Warna Merah
+            else if (statusCek === "CLOSED" || statusCek === "TUTUP") {
+                badge.innerHTML = `<div class="status-dot" style="background: var(--color-closed); box-shadow: 0 0 10px var(--color-closed);"></div> ${t.badge_closed}`;
+                badge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                badge.style.color = 'var(--color-closed)';
+            } 
+            // Jika status LOADING atau lainnya -> Warna Abu-abu/Merah
+            else {
+                badge.innerHTML = `<div class="status-dot" style="background: var(--color-closed); box-shadow: 0 0 10px var(--color-closed);"></div> ${statusCek}`;
+                badge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                badge.style.color = 'var(--color-closed)';
+            }
+        }
+
+        // GENERATE CONTACT BUTTONS (Click to Copy)
+        const contactContainer = document.getElementById('contact-container');
+        contactContainer.innerHTML = `
+            <button class="copy-btn" onclick="copyToClipboard('${kontakDiscord}', this)">
+                <span><i class="fa-brands fa-discord" style="margin-right:8px;"></i> ${kontakDiscord}</span>
+                <i class="fa-regular fa-copy copy-icon"></i>
+            </button>
+            <button class="copy-btn" onclick="copyToClipboard('${kontakInstagram}', this)">
+                <span><i class="fa-brands fa-instagram" style="margin-right:8px;"></i> ${kontakInstagram}</span>
+                <i class="fa-regular fa-copy copy-icon"></i>
+            </button>
+        `;
+
+        function copyToClipboard(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btnElement.querySelector('.copy-icon');
+                const originalHtml = btnElement.innerHTML;
+                
+                btnElement.classList.add('copied');
+                btnElement.innerHTML = `<span><i class="fa-solid fa-check" style="margin-right:8px;"></i> ${translations[currentLang].copied}</span> <i class="fa-solid fa-check-double"></i>`;
+                
+                setTimeout(() => {
+                    btnElement.classList.remove('copied');
+                    btnElement.innerHTML = originalHtml;
+                }, 2000);
+            });
+        }
+
+        // GENERATE F.A.Q ACCORDION (mengikuti bahasa aktif)
+        function renderFaq() {
+            const faqContainer = document.getElementById('faq-container');
+            faqContainer.innerHTML = '';
+            daftarFaq.forEach((faq) => {
+                const tanya = (currentLang === 'en' && faq.tanyaEN) ? faq.tanyaEN : faq.tanya;
+                const jawab = (currentLang === 'en' && faq.jawabEN) ? faq.jawabEN : faq.jawab;
+                faqContainer.innerHTML += `
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>${tanya}</span>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer"><br>${jawab}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+
+        // GENERATE GALLERY P1.png - P30.png
+        const containerGaleri = document.getElementById('portfolio-gallery');
+        for (let i = 1; i <= 30; i++) {
+            let namaFileGambar = `P${i}.png`; 
+            let imgCek = new Image();
+            imgCek.src = namaFileGambar;
+            imgCek.onload = function() {
+                let card = document.createElement('div');
+                card.className = 'thumb-card';
+                card.style.order = i; 
+                card.innerHTML = `<img src="${namaFileGambar}" alt="Thumbnail ${i}" onclick="openLightbox(this.src)">`;
+                containerGaleri.appendChild(card);
+            };
+            imgCek.onerror = function() { return; };
+        }
+
+        // GENERATE REVIEWS
+        function generateStarsHTML(rating) {
+            let stars = '';
+            for(let i=1; i<=5; i++) {
+                if(i <= rating) stars += '<i class="fa-solid fa-star"></i>';
+                else if (i - 0.5 === rating) stars += '<i class="fa-solid fa-star-half-stroke"></i>';
+                else stars += '<i class="fa-regular fa-star"></i>';
+            }
+            return stars;
+        }
+        function renderReviews() {
+            const containerReviews = document.getElementById('reviews-container');
+            containerReviews.innerHTML = '';
+
+            // Logika jika ulasan kosong
+            if (daftarUlasan.length === 0) {
+                const msgId = "Belum ada ulasan! Jadilah customer pertama yang memberikan ulasan.";
+                const msgEn = "No reviews yet! Be the first customer to leave a review.";
+                
+                containerReviews.innerHTML = `
+                    <div class="review-card" style="text-align: center; border-left: none; border: 1px dashed var(--primary-neon);">
+                        <div class="review-text" style="font-style: normal; color: #fff;">
+                            ${currentLang === 'en' ? msgEn : msgId}
+                        </div>
+                    </div>
+                `;
+                return; // Keluar dari fungsi jika tidak ada data
+            }
+
+            // Jika ada data, jalankan logika loop yang lama
+            daftarUlasan.forEach(ulasan => {
+                const teks = (currentLang === 'en' && ulasan.teksEN) ? ulasan.teksEN : ulasan.teks;
+                containerReviews.innerHTML += `
+                    <div class="review-card">
+                        <div class="stars">${generateStarsHTML(ulasan.rating)}</div>
+                        <div class="review-text">"${teks}"</div>
+                        <div class="reviewer-info">
+                            <img src="${ulasan.pfp}" alt="PFP" class="reviewer-pfp">
+                            <span class="reviewer-name">${ulasan.nama}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // SYSTEM NAV & LIGHTBOX & PARTICLES
+        function openPage(pageId) {
+            document.getElementById('main-menu').classList.add('hidden');
+            let pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+        function closePages() {
+            let pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+        function openLightbox(imgSrc) {
+            document.getElementById('lightbox-img').src = imgSrc; 
+            document.getElementById('lightbox').style.display = 'flex'; 
+        }
+        function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 15; i++) {
+            let particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+            particle.style.animationDelay = (Math.random() * 5) + 's';
+            particle.style.transform = `scale(${Math.random() * 0.5 + 0.5}) rotate(30deg)`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // GENERATE ABOUT BIO & TERMS OF SERVICE (mengikuti bahasa aktif)
+        function renderAboutBio() {
+            document.getElementById('about-bio-text').innerHTML = aboutBio[currentLang];
+        }
+        function renderTos() {
+            document.getElementById('tos-body-content').innerHTML = tosContent[currentLang];
+        }
+
+        // TERMS OF SERVICE MODAL
+        function openTos() { document.getElementById('tos-modal').style.display = 'flex'; }
+        function closeTos() { document.getElementById('tos-modal').style.display = 'none'; }
+
+        // LANGUAGE SWITCHER (IDN/ENG)
+        function applyStaticI18n() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+        }
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+            applyStaticI18n();
+            renderStatusBadge();
+            renderFaq();
+            renderReviews();
+            renderAboutBio();
+            renderTos();
+        }
+
+        // INISIALISASI BAHASA DEFAULT (ganti 'id' jadi 'en' kalau mau default Bahasa Inggris)
+        setLanguage('id');
+    </script>
+</body>
+</html>
