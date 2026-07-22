@@ -5,909 +5,1060 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rgch.e | Minecraft Thumbnail Commissions</title>
 
-    <meta name="description" content="rgch.e — Jasa pembuatan thumbnail & 3D render Minecraft (SMP, Bedwars, Minigames). Kualitas tinggi, proses cepat, harga terjangkau.">
-
+    <meta name="description" content="rgch.e — Jasa pembuatan thumbnail & 3D render Minecraft (SMP, Bedwars, Minigames).">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="rgch.e">
     <meta property="og:title" content="rgch.e | Minecraft Thumbnail Commissions">
-    <meta property="og:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
-    <meta property="og:image" content="https://rgch.vercel.app/P2.png"> 
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://rgch.vercel.app/"> 
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="rgch.e | Minecraft Thumbnail Commissions">
-    <meta name="twitter:description" content="Jasa pembuatan thumbnail & 3D render Minecraft. Lihat portofolio, harga, dan cara order di sini!">
-    <meta name="twitter:image" content="https://rgch.vercel.app/P1.png">
-
-    <meta name="theme-color" content="#0d0614">
+    <meta property="og:image" content="https://rgch.vercel.app/P2.png">
+    <meta name="theme-color" content="#E2652F">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        /* =========================================================
+           DESIGN TOKENS — "Badlands Clay" system
+           Palette pulled from Minecraft terracotta/mesa blocks:
+           warm clay canvas, burnt-ember accent, moss/redstone states.
+        ========================================================= */
         :root {
-            --bg-color: #0d0614; 
-            --primary-neon: #a855f7; 
-            --text-main: #ffffff;
-            --color-open: #22c55e; 
-            --color-closed: #ef4444; 
+            --clay-canvas: #E7CDB9;
+            --clay-canvas-deep: #DAB89E;
+            --ink: #2B2118;
+            --ink-soft: #4A392E;
+            --ink-muted: #7C6A5C;
+            --surface: rgba(251, 244, 235, 0.6);
+            --surface-strong: rgba(251, 244, 235, 0.86);
+            --surface-solid: #FBF4EB;
+            --ember: #E2652F;
+            --ember-deep: #B94A1E;
+            --ember-soft: rgba(226, 101, 47, 0.14);
+            --moss: #6E8F4E;
+            --moss-deep: #4F6B36;
+            --redstone: #C1432B;
+            --redstone-deep: #932F1D;
+            --gold: #D9A441;
+            --line: rgba(43, 33, 24, 0.1);
+            --shadow-soft: 0 10px 26px rgba(74, 47, 24, 0.12);
+            --shadow-lift: 0 16px 34px rgba(74, 47, 24, 0.2);
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --notch: 14px;
+            --font-display: 'Bricolage Grotesque', 'Poppins', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent; 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-body); -webkit-tap-highlight-color: transparent; }
+        button, a, input, textarea, select { outline: none !important; font-family: var(--font-body); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
         }
 
-        button, a { outline: none !important; }
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow: hidden; 
+            background-color: var(--clay-canvas);
+            background-image:
+                radial-gradient(circle at 15% 8%, rgba(255,255,255,0.35), transparent 45%),
+                linear-gradient(180deg, var(--clay-canvas) 0%, var(--clay-canvas-deep) 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><path d="M0 0H64V64H0Z" fill="none"/><path d="M0 32H64M32 0V64" stroke="rgba(74,47,24,0.05)" stroke-width="2"/></svg>');
+            color: var(--ink);
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
-            user-select: none;
+            position: relative;
         }
 
-        /* --- PRELOADER (LOADING SCREEN) --- */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-color);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-        .pulse-logo {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--primary-neon);
-            text-transform: lowercase;
-            letter-spacing: 2px;
-            animation: pulseGlow 1.5s infinite alternate;
-        }
-        @keyframes pulseGlow {
-            from { text-shadow: 0 0 10px rgba(168,85,247,0.5); transform: scale(1); }
-            to { text-shadow: 0 0 30px rgba(168,85,247,0.8), 0 0 50px rgba(168,85,247,0.5); transform: scale(1.05); }
+        a { color: inherit; }
+        :focus-visible { outline: 3px solid var(--ember) !important; outline-offset: 2px; border-radius: 4px; }
+
+        .skip-link { position: fixed; top: -60px; left: 20px; background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 10px; z-index: 10002; transition: top 0.2s; font-weight: 700; }
+        .skip-link:focus { top: 20px; }
+
+        /* Signature shape: notched "block" corner used sparingly on primary surfaces */
+        .block-notch {
+            clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
         }
 
-        /* --- EFEK PARTIKEL --- */
-        .particles-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .particle {
-            position: absolute;
-            width: 6px; height: 25px;
-            background-color: var(--primary-neon);
-            border-radius: 10px;
-            transform: rotate(30deg);
-            opacity: 0.6;
-            animation: floatUp linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(30deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) rotate(30deg); opacity: 0; }
-        }
+        /* --- PRELOADER --- */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--clay-canvas); z-index: 10000; display: flex; flex-direction: column; gap: 18px; justify-content: center; align-items: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
+        .pulse-logo { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; color: var(--ember); letter-spacing: 1px; animation: pulseText 1.4s infinite alternate; text-transform: uppercase; }
+        .pulse-bar { width: 140px; height: 6px; border-radius: 6px; background: rgba(74,47,24,0.12); overflow: hidden; }
+        .pulse-bar::after { content: ''; display: block; width: 40%; height: 100%; background: var(--ember); border-radius: 6px; animation: pulseBar 1.1s ease-in-out infinite; }
+        @keyframes pulseText { from { opacity: 0.6; transform: scale(1); } to { opacity: 1; transform: scale(1.04); } }
+        @keyframes pulseBar { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
 
-        .container {
-            width: 100%; max-width: 600px;
-            padding: 30px 20px;
-            display: flex; flex-direction: column;
-            align-items: center; height: 100%;
-            justify-content: space-between;
+        /* --- TOP NAVBAR --- */
+        .top-navbar {
+            width: 100%; max-width: 1120px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 30px;
+            z-index: 100;
+            position: sticky; top: 0;
         }
+        .nav-brand { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--ink); text-transform: uppercase; line-height: 1.1; white-space: nowrap; letter-spacing: 0.5px; background: none; border: none; cursor: pointer; padding: 6px 4px; }
+        .nav-brand span { color: var(--ember); display: block; font-size: 0.72rem; letter-spacing: 2px; font-family: var(--font-mono); font-weight: 700; margin-top: 2px; }
 
-        /* --- HEADER & STATUS BADGE --- */
-        .brand-title {
-            font-size: 3.2rem; font-weight: 800;
-            color: var(--primary-neon); text-transform: lowercase;
-            letter-spacing: 2px; margin-top: 15px; margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3);
-            text-align: center;
+        .nav-links-container { display: flex; gap: 6px; align-items: center; background: var(--surface); backdrop-filter: blur(14px); padding: 6px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4); box-shadow: var(--shadow-soft); }
+        .nav-btn {
+            background: transparent; border: none; color: var(--ink-soft);
+            font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: 0.25s; white-space: nowrap;
+            padding: 9px 16px; border-radius: 22px;
         }
+        .nav-btn:hover { color: var(--ember-deep); background: rgba(255,255,255,0.5); }
+        .nav-btn.active { color: #fff; font-weight: 800; background: var(--ember); box-shadow: 0 4px 12px rgba(226,101,47,0.4); }
 
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 5px 15px; border-radius: 50px;
-            font-size: 0.8rem; font-weight: 600;
-            border: 1px solid; margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .container { width: 100%; max-width: 1120px; flex: 1; display: flex; flex-direction: column; padding: 0 20px 20px 20px; position: relative; overflow: hidden; }
 
-        /* --- MENU BUTTONS --- */
-        .nav-links { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-        .btn-link {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%; padding: 12px 20px;
-            background-color: transparent; border: 2px solid var(--text-main);
-            border-radius: 50px; color: var(--text-main);
-            text-decoration: none; font-size: 1.05rem; font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease;
-        }
-        .btn-link i { margin-right: 10px; }
-        .btn-link:hover {
-            background-color: var(--text-main); color: var(--bg-color);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); transform: translateY(-2px);
-        }
-
-        /* --- PAGE SYSTEM & SCROLL --- */
-        .page-content {
-            display: none; width: 100%; height: 100%; 
-            flex-direction: column; animation: fadeIn 0.3s ease forwards; overflow: hidden; 
-        }
-        .page-content.active { display: flex; }
-        .scrollable-content {
-            flex: 1; min-height: 0; overflow-y: auto; 
-            padding-right: 5px; margin-bottom: 15px; user-select: text; 
-        }
-        .scrollable-content::-webkit-scrollbar { width: 6px; }
-        .scrollable-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
-        .scrollable-content::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
-
-        #main-menu {
-            display: flex; flex-direction: column; align-items: center;
-            width: 100%; height: 100%; justify-content: center;
-            animation: fadeIn 0.3s ease forwards;
-        }
+        /* --- HERO / MAIN MENU --- */
+        #main-menu { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 100%; animation: fadeIn 0.5s ease forwards; padding-top: 10px; gap: 34px; }
         #main-menu.hidden { display: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        .hero-text { flex: 1; max-width: 500px; z-index: 2; padding: 34px; background: var(--surface); backdrop-filter: blur(16px); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.35); box-shadow: var(--shadow-soft); }
+        .brand-subtitle { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 3px; color: var(--ember-deep); text-transform: uppercase; margin-bottom: 12px; font-weight: 700; }
+        .brand-title { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; color: var(--ink); text-transform: uppercase; line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.5px; }
 
-        /* --- TOMBOL KEMBALI --- */
-        .btn-back {
-            align-self: flex-start; background: none; border: none;
-            color: var(--primary-neon); font-size: 1.1rem; font-weight: 600;
-            cursor: pointer; margin-bottom: 15px; display: flex; align-items: center;
-            gap: 8px; padding: 5px 0; flex-shrink: 0; 
-        }
-        .btn-back:hover { color: var(--text-main); }
+        .status-badge { display: inline-flex; align-items: center; gap: 10px; padding: 9px 20px 9px 16px; font-size: 0.78rem; font-weight: 800; letter-spacing: 1px; border: none; margin-bottom: 22px; background: var(--surface-solid); box-shadow: var(--shadow-soft); font-family: var(--font-mono); }
+        .status-dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 4px currentColor22; position: relative; }
+        .status-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: currentColor; opacity: 0.25; animation: statusPing 1.8s ease-out infinite; }
+        @keyframes statusPing { 0% { transform: scale(0.6); opacity: 0.45; } 100% { transform: scale(1.8); opacity: 0; } }
 
-        .section-title {
-            font-size: 1.4rem; margin-bottom: 15px; color: var(--text-main);
-            border-bottom: 2px solid var(--primary-neon); padding-bottom: 5px; flex-shrink: 0;
-        }
+        .hero-meta { font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 26px; line-height: 1.7; }
+        .hero-meta strong { color: var(--ink); font-family: var(--font-mono); font-weight: 700; }
 
-        /* --- PORTFOLIO (GALLERY) --- */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding-bottom: 20px; }
-        .thumb-card {
-            background: #000; border-radius: 12px; overflow: hidden;
-            border: 1px solid rgba(168, 85, 247, 0.3); cursor: pointer; transition: transform 0.3s;
-        }
-        .thumb-card:hover { transform: scale(1.03); border-color: var(--primary-neon); }
-        .thumb-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; display: block; }
+        .hero-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 30px; background: var(--ember); color: #fff; border: none; font-family: var(--font-body); font-weight: 800; font-size: 0.92rem; cursor: pointer; transition: 0.25s; box-shadow: 0 8px 20px rgba(226,101,47,0.4); }
+        .hero-btn:hover { background: var(--ember-deep); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(185,74,30,0.45); }
+        .hero-btn:active { transform: translateY(-1px); }
+        .hero-btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--line); box-shadow: none; }
+        .hero-btn.ghost:hover { background: rgba(255,255,255,0.5); border-color: var(--ember); color: var(--ember-deep); transform: translateY(-2px); }
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
-        /* --- HIRE ME BUTTON AT WORK BOTTOM --- */
-        .work-action-container {
-            display: flex; justify-content: center; width: 100%; margin-top: 25px; margin-bottom: 20px;
-        }
-        .btn-hire-work {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px 35px; background: var(--primary-neon); color: var(--bg-color);
-            border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800;
-            text-decoration: none; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); transition: all 0.3s ease;
-        }
-        .btn-hire-work:hover {
-            transform: translateY(-3px); box-shadow: 0 0 30px rgba(168, 85, 247, 0.8);
-            background: #ffffff; color: var(--primary-neon);
-        }
+        .hero-image { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 1; }
+        .hero-image-frame { position: relative; padding: 14px; background: var(--surface); border: 1px solid rgba(255,255,255,0.4); box-shadow: var(--shadow-lift); }
+        .hero-image img { max-width: 100%; max-height: 62vh; object-fit: contain; display: block; }
 
-        /* --- REVIEWS --- */
-        .review-card { background: #1a1025; padding: 18px; border-radius: 12px; border-left: 4px solid var(--primary-neon); margin-bottom: 15px; }
-        .stars { color: #facc15; margin-bottom: 10px; font-size: 0.85rem; }
-        .review-text { font-size: 0.9rem; font-style: italic; color: #d1d5db; line-height: 1.5; }
-        .reviewer-info { display: flex; align-items: center; gap: 10px; margin-top: 15px; }
-        .reviewer-pfp { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(168, 85, 247, 0.5); }
-        .reviewer-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+        /* --- PAGE SYSTEM --- */
+        .page-content { display: none; width: 100%; height: 100%; flex-direction: column; animation: fadeIn 0.3s ease forwards; overflow: hidden; padding-top: 6px; }
+        .page-content.active { display: flex; }
+        .scrollable-content { flex: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 20px; }
+        .scrollable-content::-webkit-scrollbar { width: 6px; }
+        .scrollable-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .scrollable-content::-webkit-scrollbar-thumb { background: var(--ember); border-radius: 10px; }
 
-        /* --- ABOUT & FAQ ACCORDION --- */
-        .about-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; margin-top: 10px; }
-        .about-pfp { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-neon); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); margin-bottom: 15px; }
-        .about-title { font-size: 1.5rem; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
-        .info-box { background: #1a1025; padding: 20px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3); line-height: 1.6; font-size: 0.95rem; text-align: center; margin-bottom: 25px; }
-        .faq-item { background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 10px; margin-bottom: 10px; overflow: hidden; transition: all 0.3s ease; }
-        .faq-question { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
-        .faq-icon { transition: transform 0.3s ease; color: var(--primary-neon); }
-        .faq-answer { max-height: 0; padding: 0 15px; font-size: 0.85rem; color: #d1d5db; transition: max-height 0.3s ease-out, padding 0.3s ease; opacity: 0; }
-        .faq-item.active { border-color: var(--primary-neon); box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); }
+        .section-title { font-family: var(--font-display); font-size: 1.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 22px; color: var(--ink); display: inline-block; letter-spacing: -0.5px; }
+        .section-header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; width: 100%; margin-bottom: 20px; }
+        .section-header-row .section-title { margin-bottom: 0; }
+
+        /* --- GALLERY (LANDSCAPE 16:9) --- */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; padding-bottom: 20px; }
+        .thumb-card { background: var(--surface-solid); overflow: hidden; cursor: pointer; transition: 0.35s; position: relative; box-shadow: var(--shadow-soft); aspect-ratio: 16/9; border: 1px solid var(--line); }
+        .thumb-card:hover { transform: translateY(-6px); box-shadow: 0 18px 32px rgba(226,101,47,0.3); }
+        .thumb-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; display: block; }
+        .thumb-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 22px 16px 14px; background: linear-gradient(to top, rgba(20,12,6,0.82), transparent); color: #fff; font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--font-mono); }
+        .thumb-card:hover img { transform: scale(1.06); }
+
+        .thumb-skeleton { aspect-ratio: 16/9; background: linear-gradient(100deg, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0.25) 70%); background-size: 220% 100%; animation: shimmer 1.4s infinite; border: 1px solid var(--line); }
+        @keyframes shimmer { 0% { background-position: 140% 0; } 100% { background-position: -60% 0; } }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--ink-muted); grid-column: 1 / -1; }
+        .empty-state i { font-size: 2rem; color: var(--ember); margin-bottom: 14px; display: block; }
+        .empty-state p { font-weight: 600; }
+
+        /* --- REVIEWS SUMMARY --- */
+        .rating-summary { display: flex; align-items: center; gap: 20px; background: var(--surface-solid); border: 1px solid var(--line); padding: 18px 24px; margin-bottom: 22px; box-shadow: var(--shadow-soft); flex-wrap: wrap; }
+        .rating-summary .score { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: var(--ink); line-height: 1; }
+        .rating-summary .score-stars { color: var(--gold); font-size: 1rem; margin-top: 4px; }
+        .rating-summary .score-count { font-size: 0.82rem; color: var(--ink-muted); margin-top: 2px; }
+        .sort-controls { display: flex; gap: 8px; margin-left: auto; }
+        .sort-btn { background: rgba(255,255,255,0.5); border: 1px solid var(--line); color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; padding: 8px 14px; border-radius: 20px; cursor: pointer; transition: 0.2s; }
+        .sort-btn:hover { border-color: var(--ember); color: var(--ember-deep); }
+        .sort-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+        /* --- REVIEWS & FAQ & INFO BOXES --- */
+        .review-card, .info-box { background: var(--surface-strong); padding: 24px; margin-bottom: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-left: 4px solid var(--ember); }
+        .stars { color: var(--gold); margin-bottom: 10px; font-size: 1rem; letter-spacing: 2px; }
+        .review-text, .info-box p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.75; }
+        .reviewer-info { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 16px; flex-wrap: wrap; }
+        .reviewer-name { font-size: 0.88rem; font-weight: 800; color: var(--ink); }
+        .reviewer-date { font-size: 0.74rem; color: var(--ink-muted); font-family: var(--font-mono); }
+
+        .faq-item { background: var(--surface-strong); margin-bottom: 14px; padding: 20px; cursor: pointer; border-radius: var(--radius-md); box-shadow: 0 4px 10px rgba(43,33,24,0.05); transition: 0.3s; border: 1px solid rgba(255,255,255,0.5); }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; font-weight: 700; color: var(--ink); transition: 0.3s; gap: 15px; }
+        .faq-item:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(226,101,47,0.16); }
+        .faq-icon { transition: transform 0.3s; color: var(--ember); }
         .faq-item.active .faq-icon { transform: rotate(180deg); }
-        .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 15px; opacity: 1; transition: max-height 0.4s ease-in, opacity 0.4s ease; }
+        .faq-answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.3s ease; color: var(--ink-muted); font-size: 0.9rem; line-height: 1.7; }
+        .faq-item.active .faq-answer { max-height: 240px; padding-top: 15px; opacity: 1; }
 
-        /* --- CONTACT & CLICK TO COPY --- */
-        .image-content { width: 100%; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3); display: block; margin-bottom: 20px;}
-        .copy-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .copy-btn { display: flex; justify-content: space-between; align-items: center; background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.5); padding: 12px 18px; border-radius: 10px; color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .copy-btn:hover { background: #2a1b38; border-color: var(--primary-neon); }
-        .copy-btn i { color: var(--primary-neon); font-size: 1.1rem; }
-        .copy-btn.copied { border-color: var(--color-open); color: var(--color-open); }
-        .copy-btn.copied i { color: var(--color-open); }
+        /* --- CONTACT & FORMS --- */
+        .field-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 8px; letter-spacing: 0.3px; }
+        .form-input { width: 100%; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-solid); color: var(--ink); margin-bottom: 18px; font-size: 0.95rem; transition: 0.25s; }
+        .form-input::placeholder { color: var(--ink-muted); }
+        .form-input:focus { border-color: var(--ember); box-shadow: 0 0 0 4px var(--ember-soft); }
+        textarea.form-input { resize: vertical; min-height: 110px; }
+        .char-count { display: block; text-align: right; font-size: 0.72rem; color: var(--ink-muted); font-family: var(--font-mono); margin-top: -12px; margin-bottom: 18px; }
 
-        /* --- LIGHTBOX & BEFORE/AFTER SLIDER --- */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(13, 6, 20, 0.95); z-index: 9999; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
-        #lightbox-img { max-width: 90%; max-height: 80vh; border-radius: 10px; border: 2px solid var(--primary-neon); box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
-        .close-lightbox { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; transition: color 0.3s; z-index: 10001; }
-        .close-lightbox:hover { color: var(--primary-neon); }
-        #ba-toggle-container { position: absolute; top: 25px; left: 30px; display: none; align-items: center; gap: 10px; z-index: 10001; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 50px; backdrop-filter: blur(5px); }
+        .copy-actions { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+        .copy-btn { display: flex; justify-content: space-between; align-items: center; background: var(--surface-solid); border: 1px solid var(--line); padding: 20px; color: var(--ink); font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; border-radius: 14px; box-shadow: var(--shadow-soft); }
+        .copy-btn:hover { border-color: var(--ember); box-shadow: 0 8px 20px rgba(226,101,47,0.22); color: var(--ember-deep); }
+        .image-content { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lift); margin-bottom: 20px; }
+
+        /* --- STAR PICKER --- */
+        .star-picker { display: flex; justify-content: center; gap: 10px; font-size: 2rem; margin-bottom: 24px; }
+        .star-picker i { color: #d8c9ba; cursor: pointer; transition: 0.2s; }
+        .star-picker i:hover, .star-picker i.hovered { transform: scale(1.15); }
+
+        /* --- FIXED ACTIONS (BOTTOM RIGHT & LANG) --- */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 14px; z-index: 500; }
+        .action-circle-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--surface-solid); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow-soft); font-size: 1.15rem; cursor: pointer; transition: 0.25s; display: flex; align-items: center; justify-content: center; }
+        .action-circle-btn:hover { background: var(--ember); color: #fff; transform: scale(1.08); border-color: var(--ember); }
+        .action-circle-btn.to-top { opacity: 0; pointer-events: none; transform: translateY(10px); }
+        .action-circle-btn.to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        .lang-switcher { position: fixed; bottom: 30px; left: 30px; display: flex; gap: 6px; z-index: 500; background: var(--surface-solid); padding: 5px; border-radius: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--line); }
+        .lang-btn { background: transparent; border: none; color: var(--ink-muted); font-size: 0.78rem; font-weight: 800; cursor: pointer; padding: 7px 12px; border-radius: 15px; transition: 0.25s; font-family: var(--font-mono); }
+        .lang-btn.active { background: var(--ember); color: #fff; }
+
+        /* --- TOASTS --- */
+        #toast-stack { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 10500; display: flex; flex-direction: column; gap: 10px; align-items: center; width: min(92vw, 380px); }
+        .toast { width: 100%; background: var(--ink); color: #fff; padding: 14px 18px; border-radius: 12px; font-size: 0.86rem; font-weight: 600; box-shadow: 0 10px 26px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 10px; animation: toastIn 0.3s ease; }
+        .toast.success { background: var(--moss-deep); }
+        .toast.error { background: var(--redstone-deep); }
+        .toast i { font-size: 1rem; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: translateY(0); } }
+        .toast.leaving { animation: toastOut 0.25s ease forwards; }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(-10px); } }
+
+        /* --- MODALS --- */
+        .custom-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30, 18, 10, 0.45); z-index: 9998; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s; backdrop-filter: blur(5px); }
+        .custom-panel { background: var(--clay-canvas); width: 100%; max-width: 500px; max-height: 85vh; display: flex; flex-direction: column; border-radius: var(--radius-lg); box-shadow: 0 24px 55px rgba(0,0,0,0.28); overflow: hidden; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; background: var(--surface-solid); border-bottom: 1px solid var(--line); }
+        .modal-header h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; color: var(--ink); text-transform: uppercase; letter-spacing: 0.3px; }
+        .close-modal { color: var(--ink-muted); font-size: 1.4rem; cursor: pointer; transition: 0.25s; background: none; border: none; line-height: 1; padding: 4px 8px; border-radius: 8px; }
+        .close-modal:hover { color: #fff; background: var(--redstone); }
+        .modal-body { padding: 25px; overflow-y: auto; background: var(--clay-canvas); }
+
+        /* Tracker Progress */
+        .progress-container { display: flex; justify-content: space-between; position: relative; margin: 34px 0 20px; }
+        .progress-container::before { content: ''; position: absolute; top: 17px; left: 0; width: 100%; height: 4px; background: rgba(43,33,24,0.12); z-index: 1; border-radius: 4px; }
+        .progress-line { position: absolute; top: 17px; left: 0; height: 4px; background: var(--ember); z-index: 2; transition: 0.5s ease; border-radius: 4px; }
+        .step { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--ink-muted); font-size: 0.62rem; font-weight: 800; width: 20%; text-transform: uppercase; text-align: center; font-family: var(--font-mono); }
+        .step-icon { width: 36px; height: 36px; background: var(--surface-solid); border: 3px solid rgba(43,33,24,0.12); display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 0.85rem; transition: 0.4s; color: #ccbba8; }
+        .step.active .step-icon { border-color: var(--ember); background: var(--ember); color: #fff; box-shadow: 0 5px 15px rgba(226,101,47,0.4); }
+        .step.active { color: var(--ink); }
+        .step.completed .step-icon { border-color: var(--moss); background: var(--surface-solid); color: var(--moss-deep); }
+        .step.completed { color: var(--moss-deep); }
+
+        /* --- LIGHTBOX & BEFORE/AFTER --- */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 6, 3, 0.9); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        #lightbox-img { max-width: 90%; max-height: 85vh; border-radius: 14px; box-shadow: 0 12px 44px rgba(0,0,0,0.55); object-fit: contain; }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2.3rem; cursor: pointer; z-index: 10001; transition: 0.25s; background: none; border: none; line-height: 1; }
+        .close-lightbox:hover { color: var(--ember); }
+
+        #ba-toggle-container { position: absolute; top: 30px; left: 30px; display: none; align-items: center; gap: 15px; z-index: 10001; background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 30px; backdrop-filter: blur(6px); }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider-round { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.2); transition: .4s; border-radius: 34px; border: 1px solid var(--primary-neon); }
-        .slider-round:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider-round { background-color: var(--primary-neon); }
+        .slider-round { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.4); transition: .4s; border-radius: 34px; }
+        .slider-round:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider-round { background-color: var(--ember); }
         input:checked + .slider-round:before { transform: translateX(20px); }
-        .ba-toggle-text { color: #fff; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
+        .ba-toggle-text { color: #fff; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); }
 
-        /* BEFORE/AFTER CONTAINER */
-        .ba-container { display: none; position: relative; width: 90vw; max-width: 1000px; max-height: 80vh; aspect-ratio: 16/9; border-radius: 10px; border: 2px solid var(--primary-neon); box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); overflow: hidden; }
+        .ba-container { display: none; position: relative; width: 90vw; max-width: 1000px; max-height: 80vh; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; box-shadow: 0 12px 44px rgba(0,0,0,0.55); background: #000; }
         @media (min-aspect-ratio: 16/9) { .ba-container { height: 80vh; width: auto; } }
         @media (max-aspect-ratio: 16/9) { .ba-container { width: 90vw; height: auto; } }
         .ba-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
         .ba-img-after { z-index: 1; }
         .ba-img-before { z-index: 2; clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); }
-        .ba-label { position: absolute; padding: 5px 12px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.85rem; font-weight: 800; border-radius: 6px; z-index: 4; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); text-shadow: 0 0 5px #000; }
-        .ba-label-before { top: 15px; left: 15px; }
-        .ba-label-after { bottom: 15px; right: 15px; }
         .ba-range { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 10; }
-        .ba-line { position: absolute; top: 0; left: 50%; width: 3px; height: 100%; background: #fff; pointer-events: none; z-index: 5; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        .ba-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; background: var(--primary-neon); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 14px; box-shadow: 0 0 15px rgba(0,0,0,0.8); border: 2px solid #fff; }
+        .ba-line { position: absolute; top: 0; left: 50%; width: 4px; height: 100%; background: var(--ember); pointer-events: none; z-index: 5; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.3); }
 
-        footer { font-size: 0.75rem; color: #6b7280; text-align: center; width: 100%; padding-top: 10px; flex-shrink: 0; margin-bottom: 10px; }
+        footer { font-size: 0.74rem; color: var(--ink-muted); text-align: center; width: 100%; padding: 22px; margin-top: auto; z-index: 1; cursor: default; font-weight: 600; font-family: var(--font-mono); user-select: none; }
 
-        /* --- LANGUAGE SWITCHER --- */
-        .lang-switcher { position: fixed; top: 14px; right: 14px; z-index: 500; display: flex; align-items: center; gap: 4px; background: rgba(26, 16, 37, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 50px; padding: 5px 6px; }
-        .lang-btn { background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; padding: 4px 9px; border-radius: 20px; transition: all 0.25s ease; }
-        .lang-btn.active { color: var(--bg-color); background: var(--primary-neon); box-shadow: 0 0 10px rgba(168, 85, 247, 0.6); }
-        .lang-divider { color: rgba(255,255,255,0.2); font-size: 0.7rem; }
+        /* =========================================
+           📱 RESPONSIVE DESIGN UNTUK MOBILE (HP)
+           ========================================= */
+        @media (max-width: 768px) {
+            .top-navbar { flex-direction: column; gap: 12px; padding: 14px 16px; align-items: flex-start; position: static; }
+            .nav-brand { margin-bottom: 2px; }
 
-        /* --- TOP LEFT FIXED BUTTONS CONTAINER --- */
-        .top-left-actions {
-            position: fixed; top: 14px; left: 14px; z-index: 500;
-            display: flex; gap: 8px;
-            transition: opacity 0.3s ease;
-        }
+            .nav-links-container { width: 100%; overflow-x: auto; justify-content: flex-start; gap: 4px; }
+            .nav-links-container::-webkit-scrollbar { height: 0; }
 
-        .action-btn {
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(26, 16, 37, 0.7); backdrop-filter: blur(8px);
-            border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 50px;
-            padding: 5px 12px; cursor: pointer; color: var(--text-main);
-            font-size: 0.75rem; font-weight: 700; transition: all 0.25s ease;
-            letter-spacing: 0.5px;
-        }
-        .action-btn:hover {
-            background: var(--primary-neon); color: var(--bg-color);
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
-        }
-        .action-btn i { font-size: 0.8rem; }
+            #main-menu { flex-direction: column-reverse; text-align: center; gap: 18px; padding-top: 6px; }
+            .hero-text { padding: 22px; width: 100%; }
+            .brand-title { font-size: 1.9rem; }
+            .hero-image img { max-height: 36vh; }
+            .status-badge { margin: 0 auto 18px auto; }
+            .hero-actions { justify-content: center; }
 
-        /* --- MODALS (TOS, TRACKER, KEY) --- */
-        .custom-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(13, 6, 20, 0.85); backdrop-filter: blur(4px);
-            z-index: 9998; justify-content: center; align-items: center;
-            animation: fadeIn 0.3s ease; padding: 20px;
-        }
-        .custom-panel {
-            background: #1a1025; border: 1px solid rgba(168, 85, 247, 0.4);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); border-radius: 16px;
-            width: 100%; max-width: 480px; max-height: 80vh;
-            display: flex; flex-direction: column; overflow: hidden;
-        }
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 20px; border-bottom: 1px solid rgba(168, 85, 247, 0.3); flex-shrink: 0;
-        }
-        .modal-header h3 { font-size: 1.05rem; color: var(--text-main); }
-        .close-modal { color: #fff; font-size: 1.7rem; cursor: pointer; line-height: 1; transition: color 0.3s; }
-        .close-modal:hover { color: var(--primary-neon); }
-        .modal-body { padding: 18px 20px; overflow-y: auto; user-select: text; font-size: 0.85rem; line-height: 1.6; color: #d1d5db; }
-        
-        .modal-body::-webkit-scrollbar { width: 6px; }
-        .modal-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
-        .modal-body::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 10px; }
-        .modal-body h4 { color: var(--primary-neon); margin-top: 14px; margin-bottom: 6px; font-size: 0.9rem; }
-        .modal-body h4:first-child { margin-top: 0; }
-        .modal-body p, .modal-body li { margin-bottom: 8px; }
-        .modal-body ul { padding-left: 18px; }
+            .container { padding: 0 14px 14px 14px; }
+            .section-title { font-size: 1.4rem; text-align: center; width: 100%; }
+            .section-header-row { justify-content: center; text-align: center; }
+            .gallery { grid-template-columns: 1fr; }
 
-        /* --- TRACKER STYLES --- */
-        .form-input {
-            width: 100%; padding: 12px 15px; border-radius: 8px; 
-            border: 1px solid rgba(168, 85, 247, 0.4); background: rgba(0,0,0,0.3); 
-            color: #fff; margin-bottom: 15px; outline: none; font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .form-input:focus { border-color: var(--primary-neon); box-shadow: 0 0 10px rgba(168,85,247,0.3); }
-        .form-btn {
-            width: 100%; padding: 12px; background: var(--primary-neon); color: var(--bg-color); 
-            border: none; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.95rem; 
-            transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
-        .form-btn:hover { box-shadow: 0 0 15px rgba(168,85,247,0.6); background: #fff; color: var(--primary-neon); }
+            .rating-summary { justify-content: center; text-align: center; }
+            .sort-controls { margin-left: 0; width: 100%; justify-content: center; }
 
-        .progress-container {
-            display: flex; justify-content: space-between; position: relative; margin: 35px 0 20px 0;
-        }
-        .progress-container::before {
-            content: ''; position: absolute; top: 15px; left: 0; width: 100%; height: 3px; 
-            background: rgba(255,255,255,0.1); z-index: 1; border-radius: 5px;
-        }
-        .progress-line {
-            position: absolute; top: 15px; left: 0; height: 3px; background: var(--primary-neon); 
-            z-index: 2; transition: width 0.5s ease; border-radius: 5px; box-shadow: 0 0 10px var(--primary-neon);
-        }
-        .step {
-            position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px; 
-            color: #6b7280; font-size: 0.7rem; font-weight: 600; width: 20%; text-align: center;
-        }
-        .step-icon {
-            width: 32px; height: 32px; border-radius: 50%; background: #1a1025; 
-            border: 2px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; 
-            transition: 0.4s; font-size: 0.8rem;
-        }
-        .step.active .step-icon { border-color: var(--primary-neon); background: var(--primary-neon); color: #fff; box-shadow: 0 0 15px rgba(168,85,247,0.6); }
-        .step.active { color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
-        .step.completed .step-icon { border-color: var(--primary-neon); background: #1a1025; color: var(--primary-neon); }
-        .step.completed { color: var(--primary-neon); }
+            .floating-actions { bottom: 16px; right: 16px; transform: scale(0.92); }
+            .lang-switcher { bottom: 16px; left: 16px; transform: scale(0.92); }
 
-        .not-found-alert {
-            background: rgba(239, 68, 68, 0.1); border: 1px solid var(--color-closed);
-            color: var(--color-closed); padding: 12px; border-radius: 8px; font-weight: 600;
-            display: flex; align-items: center; gap: 10px; justify-content: center; animation: fadeIn 0.3s ease;
+            .modal-body { padding: 20px; }
+            .step-icon { width: 28px; height: 28px; font-size: 0.7rem; }
+            .step { font-size: 0.55rem; }
         }
-
-        /* --- CUSTOM RIGHT-CLICK MENU --- */
-        #custom-context-menu { display: none; position: fixed; z-index: 100000; background: rgba(26, 16, 37, 0.9); backdrop-filter: blur(10px); border: 1px solid var(--primary-neon); border-radius: 8px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); padding: 6px; min-width: 220px; }
-        .context-menu-item { padding: 12px 15px; color: var(--text-main); font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 6px; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px; }
-        .context-menu-item:hover { background: var(--primary-neon); color: var(--bg-color); }
-        .context-menu-item i { font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="pulse-logo">rgch.e</div>
-    </div>
+    <a href="#main-menu" class="skip-link">Lompat ke konten utama</a>
 
-    <div id="custom-context-menu">
-        <div class="context-menu-item" onclick="window.open('https://discord.gg/Wwbz8Tjc48', '_blank')">
-            <i class="fa-brands fa-discord"></i>
-            <span data-i18n="context_order">Tertarik? Yuk order di Discord!</span>
-        </div>
-    </div>
+    <div id="preloader"><div class="pulse-logo">RGCH.E</div><div class="pulse-bar"></div></div>
 
-    <div id="lightbox">
-        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
-        
+    <div id="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" onclick="if(event.target===this) closeLightbox()" role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
+        <button class="close-lightbox" onclick="closeLightbox()" aria-label="Tutup pratinjau">&times;</button>
         <div id="ba-toggle-container">
-            <span class="ba-toggle-text">Before/After</span>
+            <span class="ba-toggle-text">Before / After</span>
             <label class="switch">
-                <input type="checkbox" id="ba-toggle-input" onchange="toggleBeforeAfter()">
+                <input type="checkbox" id="ba-toggle-input" onchange="toggleBeforeAfter()" aria-label="Tampilkan perbandingan sebelum/sesudah">
                 <span class="slider-round"></span>
             </label>
         </div>
-
         <img id="lightbox-img" src="" alt="Preview">
-
         <div class="ba-container" id="ba-container">
             <img class="ba-img ba-img-after" id="ba-img-after" src="" alt="After">
             <img class="ba-img ba-img-before" id="ba-img-before" src="" alt="Before">
-            <span class="ba-label ba-label-before">Before</span>
-            <span class="ba-label ba-label-after">After</span>
-            <input type="range" min="0" max="100" value="50" class="ba-range" id="ba-range" oninput="updateSlider(this.value)">
-            <div class="ba-line" id="ba-line">
-                <div class="ba-btn"><i class="fa-solid fa-arrows-left-right"></i></div>
-            </div>
+            <input type="range" min="0" max="100" value="50" class="ba-range" id="ba-range" oninput="updateSlider(this.value)" aria-label="Geser untuk membandingkan sebelum dan sesudah">
+            <div class="ba-line" id="ba-line"></div>
         </div>
     </div>
 
-    <!-- TOMBOL T.O.S & TRACK ORDER (POJOK KIRI ATAS) -->
-    <div class="top-left-actions" id="top-left-btns">
-        <button class="action-btn" onclick="openModal('tos-modal')">
-            <i class="fa-solid fa-file-contract"></i> T.O.S
+    <!-- TOP NAVIGATION -->
+    <nav class="top-navbar">
+        <button class="nav-brand" onclick="closePages()" aria-label="Kembali ke beranda">
+            RGCH<span>Renders</span>
         </button>
-        <button class="action-btn" onclick="openModal('tracker-modal')" style="border-color: var(--primary-neon); color: var(--primary-neon);">
-            <i class="fa-solid fa-truck-fast"></i> <span data-i18n="nav_track">Lacak</span>
-        </button>
-    </div>
+        <div class="nav-links-container" id="nav-links">
+            <button onclick="openPage('page-about', this)" class="nav-btn" data-i18n="nav_about">About</button>
+            <button onclick="openPage('page-work', this)" class="nav-btn" data-i18n="nav_work">Projects</button>
+            <button onclick="openPage('page-reviews', this)" class="nav-btn" data-i18n="nav_reviews">Reviews</button>
+            <button onclick="openPage('page-prices', this)" class="nav-btn" data-i18n="nav_prices">Prices</button>
+            <button onclick="openPage('page-contact', this)" class="nav-btn" data-i18n="nav_contact">Community</button>
+        </div>
+    </nav>
 
+    <!-- FIXED ACTIONS (Lang & Utilities) -->
     <div class="lang-switcher" id="lang-switcher">
-        <button class="lang-btn" data-lang="id" onclick="setLanguage('id')">ID</button>
-        <span class="lang-divider">/</span>
+        <button class="lang-btn active" data-lang="id" onclick="setLanguage('id')">ID</button>
         <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
     </div>
 
-    <!-- MODAL T.O.S -->
-    <div id="tos-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('tos-modal')">
+    <div class="floating-actions">
+        <button class="action-circle-btn to-top" id="btn-to-top" onclick="scrollToTop()" title="Kembali ke atas" aria-label="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+        <button class="action-circle-btn" onclick="openModal('tracker-modal')" title="Track Order" aria-label="Lacak pesanan"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="action-circle-btn" onclick="openModal('tos-modal')" title="Terms of Service" aria-label="Ketentuan layanan"><i class="fa-solid fa-file-contract"></i></button>
+    </div>
+
+    <!-- MODALS -->
+    <!-- TOS Modal -->
+    <div id="tos-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('tos-modal')" role="dialog" aria-modal="true">
         <div class="custom-panel">
-            <div class="modal-header">
-                <h3 data-i18n="tos_title">Terms of Service</h3>
-                <span class="close-modal" onclick="closeModal('tos-modal')">&times;</span>
-            </div>
-            <div class="modal-body" id="tos-body-content"></div>
+            <div class="modal-header"><h3 data-i18n="tos_title">Terms of Service</h3><button class="close-modal" onclick="closeModal('tos-modal')" aria-label="Tutup">&times;</button></div>
+            <div class="modal-body" id="tos-body-content" style="line-height: 1.8; color: var(--ink);"></div>
         </div>
     </div>
 
-    <!-- MODAL TRACKER -->
-    <div id="tracker-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('tracker-modal')">
+    <!-- Tracker Modal -->
+    <div id="tracker-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('tracker-modal')" role="dialog" aria-modal="true">
         <div class="custom-panel">
-            <div class="modal-header">
-                <h3 data-i18n="track_title">Live Progress Tracker</h3>
-                <span class="close-modal" onclick="closeModal('tracker-modal')">&times;</span>
-            </div>
+            <div class="modal-header"><h3 data-i18n="track_title">Live Progress Tracker</h3><button class="close-modal" onclick="closeModal('tracker-modal')" aria-label="Tutup">&times;</button></div>
             <div class="modal-body" style="text-align: center;">
-                <p style="margin-bottom: 15px; font-size: 0.85rem;" data-i18n="track_desc">Masukkan Username Discord kamu untuk melihat status pengerjaan.</p>
-                <input type="text" id="track-username" class="form-input" placeholder="Cth: joeladri_">
-                <button class="form-btn" onclick="searchOrder()" id="btn-search-order">
-                    <span data-i18n="track_btn">Lacak Pesanan</span> <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                
-                <div id="tracker-loading" style="display: none; margin-top: 25px;">
-                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.2rem; color: var(--primary-neon);"></i>
-                    <p style="margin-top: 12px; font-weight: 600; color: var(--primary-neon);" data-i18n="track_loading">Mencari data...</p>
-                </div>
+                <p style="margin-bottom: 20px; color: var(--ink-muted);" data-i18n="track_desc">Enter Discord username to check status.</p>
+                <input type="text" id="track-username" class="form-input" placeholder="e.g. joeladri_" onkeydown="if(event.key==='Enter') searchOrder()">
+                <button class="hero-btn" style="width: 100%; justify-content: center;" onclick="searchOrder()" id="btn-search-order" data-i18n="track_btn">Search Order</button>
 
-                <div id="tracker-error" style="display: none; margin-top: 20px;">
-                    <div class="not-found-alert">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <span data-i18n="track_notfound">Pesanan tidak ditemukan!</span>
-                    </div>
-                </div>
+                <div id="tracker-loading" style="display: none; margin-top: 25px; font-weight: 700; color: var(--ember);"><i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i>LOADING...</div>
+                <div id="tracker-error" style="display: none; margin-top: 20px; color: var(--redstone-deep); font-weight: 700;" data-i18n="track_notfound">Not Found.</div>
 
                 <div id="tracker-result" style="display: none; margin-top: 15px;">
                     <div class="progress-container" id="progress-bar-container"></div>
-                    <div id="action-ambil-hasil" style="display: none; margin-top: 25px;">
-                        <button class="form-btn" style="background: var(--color-open); box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); color: #fff;" onclick="openModal('key-modal')">
-                            <span data-i18n="track_take">Ambil Hasil</span> <i class="fa-solid fa-box-open"></i>
-                        </button>
+                    <div id="action-ambil-hasil" style="display: none; margin-top: 30px;">
+                        <button class="hero-btn" style="width: 100%; justify-content: center; background: var(--moss);" onclick="openModal('key-modal')" data-i18n="track_take">Take Result</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL KEY INPUT -->
-    <div id="key-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('key-modal')">
-        <div class="custom-panel" style="max-width: 360px;">
-            <div class="modal-header">
-                <h3 data-i18n="key_title">Verifikasi Key</h3>
-                <span class="close-modal" onclick="closeModal('key-modal')">&times;</span>
-            </div>
+    <!-- Key Modal -->
+    <div id="key-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('key-modal')" role="dialog" aria-modal="true">
+        <div class="custom-panel" style="max-width: 400px;">
+            <div class="modal-header"><h3 data-i18n="key_title">Verify Key</h3><button class="close-modal" onclick="closeModal('key-modal')" aria-label="Tutup">&times;</button></div>
             <div class="modal-body" style="text-align: center;">
-                <p style="margin-bottom: 15px; font-size: 0.85rem;" data-i18n="key_desc">Masukkan Key yang diberikan via Discord untuk mendownload/melihat hasilmu.</p>
-                <input type="password" id="track-key" class="form-input" placeholder="Masukkan Key">
-                <button class="form-btn" onclick="verifyKey()">
-                    <span data-i18n="key_btn">Klaim Hasil</span> <i class="fa-solid fa-download"></i>
-                </button>
-                <div id="key-error" style="display: none; margin-top: 15px;">
-                    <div class="not-found-alert" style="padding: 8px;">
-                        <i class="fa-solid fa-lock"></i> <span data-i18n="key_wrong">Key salah!</span>
-                    </div>
-                </div>
+                <p style="margin-bottom: 20px; color: var(--ink-muted);" data-i18n="key_desc">Enter the key provided via Discord.</p>
+                <input type="password" id="track-key" class="form-input" placeholder="Key" onkeydown="if(event.key==='Enter') verifyKey()">
+                <button class="hero-btn" style="width: 100%; justify-content: center;" onclick="verifyKey()" data-i18n="key_btn">Claim Result</button>
+                <div id="key-error" style="display: none; margin-top: 15px; color: var(--redstone-deep); font-weight: 700;" data-i18n="key_wrong">Invalid Key!</div>
             </div>
         </div>
     </div>
 
-    <div class="particles-container" id="particles"></div>
+    <!-- Review Submission Modal -->
+    <div id="review-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('review-modal')" role="dialog" aria-modal="true">
+        <div class="custom-panel">
+            <div class="modal-header"><h3 data-i18n="review_title">Write a Review</h3><button class="close-modal" onclick="closeModal('review-modal')" aria-label="Tutup">&times;</button></div>
+            <div class="modal-body">
+                <label class="field-label" for="review-name" data-i18n="review_name_ph">Nama Kamu</label>
+                <input type="text" id="review-name" class="form-input" maxlength="60" placeholder="Nama Kamu" data-i18n-placeholder="review_name_ph">
+
+                <label class="field-label" for="review-contact" data-i18n="review_contact_ph">Username Discord/IG (opsional)</label>
+                <input type="text" id="review-contact" class="form-input" maxlength="60" placeholder="Username Discord/IG (opsional)" data-i18n-placeholder="review_contact_ph">
+
+                <span class="field-label" data-i18n="review_rating_label">Rating</span>
+                <div class="star-picker" id="review-star-picker" role="radiogroup" aria-label="Pilih rating bintang">
+                    <i class="fa-solid fa-star" data-star="1" tabindex="0" role="radio" aria-label="1 bintang"></i>
+                    <i class="fa-solid fa-star" data-star="2" tabindex="0" role="radio" aria-label="2 bintang"></i>
+                    <i class="fa-solid fa-star" data-star="3" tabindex="0" role="radio" aria-label="3 bintang"></i>
+                    <i class="fa-solid fa-star" data-star="4" tabindex="0" role="radio" aria-label="4 bintang"></i>
+                    <i class="fa-solid fa-star" data-star="5" tabindex="0" role="radio" aria-label="5 bintang"></i>
+                </div>
+
+                <label class="field-label" for="review-message" data-i18n="review_msg_ph">Ceritakan pengalaman kamu...</label>
+                <textarea id="review-message" class="form-input" maxlength="500" placeholder="Ceritakan pengalaman kamu..." data-i18n-placeholder="review_msg_ph" oninput="updateCharCount()"></textarea>
+                <span class="char-count" id="review-char-count">0/500</span>
+
+                <button class="hero-btn" style="width: 100%; justify-content: center;" onclick="submitReview()" data-i18n="review_submit">Submit Review</button>
+                <div id="review-status" style="margin-top: 15px; font-weight: 600; text-align: center; min-height: 1em;" aria-live="polite"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('admin-login-modal')" role="dialog" aria-modal="true">
+        <div class="custom-panel" style="max-width: 400px;">
+            <div class="modal-header"><h3>Admin Login</h3><button class="close-modal" onclick="closeModal('admin-login-modal')" aria-label="Tutup">&times;</button></div>
+            <div class="modal-body" style="text-align: center;">
+                <p style="margin-bottom: 20px; color: var(--ink-muted);">Masukkan password admin.</p>
+                <input type="password" id="admin-password" class="form-input" placeholder="Password" onkeydown="if(event.key==='Enter') adminLogin()">
+                <button class="hero-btn" style="width: 100%; justify-content: center;" onclick="adminLogin()">Login</button>
+                <div id="admin-login-error" style="display: none; margin-top: 15px; color: var(--redstone-deep); font-weight: 700;">Password salah!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div id="admin-panel-modal" class="custom-overlay" onclick="if(event.target===this) closeModal('admin-panel-modal')" role="dialog" aria-modal="true">
+        <div class="custom-panel" style="max-width: 600px;">
+            <div class="modal-header"><h3>Admin — Kelola Review</h3><button class="close-modal" onclick="closeModal('admin-panel-modal')" aria-label="Tutup">&times;</button></div>
+            <div class="modal-body">
+                <div id="admin-review-list"><p style="color:var(--ink-muted);">Loading...</p></div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
-        
+        <!-- HERO / MAIN MENU -->
         <div id="main-menu">
-            <h1 class="brand-title">rgch.e</h1>
-            <div id="status-badge" class="status-badge"></div>
-            
-            <div class="working-hours-badge" style="font-size: 0.85rem; color: #d1d5db; margin-bottom: 20px;">
-                <i class="fa-regular fa-clock" style="color: var(--primary-neon); margin-right: 5px;"></i>
-                <span data-i18n="working_hours" style="font-weight: 600;">Jam Kerja:</span> 
-                <span id="working-hours-text" style="font-family: monospace;">Menghitung...</span>
+            <div class="hero-text">
+                <div id="status-badge" class="status-badge"></div>
+                <div class="brand-subtitle" data-i18n="subtitle">Thumbnail & 3D Render</div>
+                <h1 class="brand-title">Streaming Kualitas Tinggi Hanya Di RGCH.E</h1>
+                <p class="hero-meta">
+                    <span data-i18n="working_hours">Jam Operasional:</span> <strong id="working-hours-text">...</strong>
+                </p>
+                <div class="hero-actions">
+                    <button class="hero-btn" onclick="openPage('page-work', document.querySelectorAll('.nav-btn')[1])">
+                        <span data-i18n="hero_cta_work">Lihat Karya</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button class="hero-btn ghost" onclick="openModal('tracker-modal')">
+                        <i class="fa-solid fa-magnifying-glass"></i> <span data-i18n="hero_cta_track">Lacak Pesanan</span>
+                    </button>
+                </div>
             </div>
-
-            <div class="nav-links" style="margin-bottom: 20px; width: 100%;">
-                <button onclick="openPage('page-work')" class="btn-link"><i class="fa-solid fa-paintbrush"></i> <span data-i18n="nav_work">Work</span></button>
-                <button onclick="openPage('page-contact')" class="btn-link"><i class="fa-solid fa-phone"></i> <span data-i18n="nav_contact">Contact</span></button>
-                <button onclick="openPage('page-reviews')" class="btn-link"><i class="fa-solid fa-star"></i> <span data-i18n="nav_reviews">Reviews</span></button>
-                <button onclick="openPage('page-prices')" class="btn-link"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="nav_prices">Prices</span></button>
-                <button onclick="openPage('page-about')" class="btn-link"><i class="fa-solid fa-circle-question"></i> <span data-i18n="nav_about">About</span></button>
+            <div class="hero-image">
+                <div class="hero-image-frame block-notch">
+                    <img src="P1.png" alt="Contoh render Minecraft" onerror="this.closest('.hero-image').style.display='none'">
+                </div>
             </div>
         </div>
 
+        <!-- PAGES -->
         <div id="page-work" class="page-content">
-            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
-            <h2 class="section-title" data-i18n="title_work">Recent Works</h2>
+            <h2 class="section-title" data-i18n="title_work">Most Popular</h2>
             <div class="scrollable-content">
                 <div class="gallery" id="portfolio-gallery"></div>
-                <div class="work-action-container">
-                    <a href="https://discord.gg/Wwbz8Tjc48" target="_blank" class="btn-hire-work">
-                        <i class="fa-brands fa-discord"></i> <span data-i18n="btn_hire_me">Hire Me</span>
-                    </a>
-                </div>
             </div>
         </div>
 
         <div id="page-reviews" class="page-content">
-            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
-            <h2 class="section-title" data-i18n="title_reviews">Client Reviews</h2>
+            <div class="section-header-row">
+                <h2 class="section-title" data-i18n="title_reviews">Client Reviews</h2>
+                <button class="hero-btn" style="padding: 11px 20px;" onclick="openModal('review-modal')">
+                    <i class="fa-solid fa-pen"></i><span data-i18n="nav_write_review">Tulis Review</span>
+                </button>
+            </div>
+            <div id="rating-summary-container"></div>
             <div class="scrollable-content" id="reviews-container"></div>
         </div>
 
         <div id="page-prices" class="page-content">
-            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
-            <h2 class="section-title" data-i18n="title_prices">Commission Prices</h2>
+            <h2 class="section-title" data-i18n="title_prices">Rates & Prices</h2>
             <div class="scrollable-content">
                 <img src="price.jpg" alt="Pricelist" class="image-content">
             </div>
         </div>
 
         <div id="page-about" class="page-content">
-            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
+            <h2 class="section-title" data-i18n="nav_about">About</h2>
             <div class="scrollable-content">
-                <div class="about-header">
-                    <img src="pfpgw.png" alt="rgch.e Profile" class="about-pfp">
-                    <h3 class="about-title">rgch.e</h3>
+                <div class="info-box" style="margin-bottom: 30px; display: flex; align-items: center; gap: 20px; border-left-color: var(--gold);">
+                    <img src="pfpgw.png" alt="Profile" style="width: 90px; height: 90px; object-fit: cover; flex-shrink: 0;" class="block-notch">
+                    <p id="about-bio-text" style="font-size: 1.05rem; color: var(--ink); font-weight: 600; line-height: 1.6;"></p>
                 </div>
-                <div class="info-box">
-                    <p id="about-bio-text"></p>
-                </div>
-                
-                <h2 class="section-title" style="font-size: 1.2rem;">F.A.Q</h2>
+                <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; margin-bottom: 15px; color: var(--ink); text-transform: uppercase;">F.A.Q</h3>
                 <div id="faq-container"></div>
             </div>
         </div>
 
         <div id="page-contact" class="page-content">
-            <button onclick="closePages()" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">Back</span></button>
-            <h2 class="section-title" data-i18n="title_contact">Contact</h2>
+            <h2 class="section-title" data-i18n="title_contact">Community & Contact</h2>
             <div class="scrollable-content">
-                <div class="copy-actions" id="contact-container"></div>
-                
-                <div style="margin-top: 20px; width: 100%;">
-                    <a href="https://discord.gg/Wwbz8Tjc48" target="_blank" class="btn-link" style="border-color: #5865F2; background: rgba(88, 101, 242, 0.15);">
-                        <i class="fa-brands fa-discord" style="color: #5865F2;"></i> <span data-i18n="btn_join_discord">Join Discord Server</span>
-                    </a>
-                </div>
+                <div class="copy-actions" id="contact-container" style="margin-bottom: 25px;"></div>
+                <a href="https://discord.gg/Wwbz8Tjc48" target="_blank" rel="noopener" style="text-decoration: none;">
+                    <button class="hero-btn" style="width: 100%; justify-content: center; gap: 10px;">
+                        <i class="fa-brands fa-discord" style="font-size: 1.2rem;"></i> <span data-i18n="btn_join_discord">Join Discord Server</span>
+                    </button>
+                </a>
             </div>
         </div>
-
-        <footer>
-            ( Designed by rgch.e )
-        </footer>
     </div>
 
+    <footer id="site-footer">( Designed by rgch.e )</footer>
+
     <script>
-        // 1. STATUS KOMISI
-        let statusKomisi = "LOADING..."; 
+        /* =========================================================
+           JSONBIN CONFIG & JS LOGIC
+           NOTE: this key and the admin password below are visible to
+           anyone who views this page's source. For real protection,
+           move review writes and admin auth behind a small server
+           endpoint instead of calling JSONBin directly from the browser.
+        ========================================================= */
+        const JSONBIN_CONFIG = {
+            binId: '6a5f366ef5f4af5e29ab88fc',
+            apiKey: '$2a$10$HGqiDocC.xxYl92NlZnQhucwPoL2ef.UuYKEf90Wpr87qTqxflyTK',
+            baseUrl: 'https://api.jsonbin.io/v3/b/'
+        };
+        const ADMIN_PASSWORD = '777888gH*';
+
+        let statusKomisi = "LOADING...";
 
         async function loadStatusKomisi() {
             try {
                 const response = await fetch('status.json');
                 if (!response.ok) throw new Error("Gagal mengambil data");
                 const data = await response.json();
-                statusKomisi = data.status; 
-            } catch (error) {
-                statusKomisi = "CLOSED"; 
-            } finally {
-                renderStatusBadge();
-            }
+                statusKomisi = data.status;
+            } catch (error) { statusKomisi = "CLOSED"; }
+            finally { renderStatusBadge(); }
         }
         loadStatusKomisi();
 
-        // 2. KONTAK & DAFTAR F.A.Q
-        const kontakDiscord = "joeladri_";
-        const kontakInstagram = "rgch.e";
+        const kontakDiscord = "joeladri_"; const kontakInstagram = "rgch.e";
         const daftarFaq = [
             { tanya: "Pembayaran bisa lewat apa aja?", jawab: "Saat ini aku menerima pembayaran via PayPal, Qris.", tanyaEN: "What payment methods do you accept?", jawabEN: "I currently accept payments via Paypal, Qris." },
-            { tanya: "Pengerjaan berapa lama bang?", jawab: "Normalnya 2-4 hari tergantung antrean dan seberapa rumit request pose karakternya.", tanyaEN: "How long does the work take?", jawabEN: "Usually 2-4 days, depending on the queue and how complex the character pose request is." },
-            { tanya: "Bisa revisi ga?", jawab: "Bisa! Revisi minor (seperti ubah lighting/warna) maksimal 5x. Untuk revisi rubah pose total, akan dikenakan biaya tambahan ya.", tanyaEN: "Can I get revisions?", jawabEN: "Yes! Minor revisions (like lighting/color changes) are free up to 2 times. A full pose change will incur an extra fee." }
+            { tanya: "Pengerjaan berapa lama bang?", jawab: "Normalnya 2-4 hari tergantung antrean dan seberapa rumit request pose karakternya.", tanyaEN: "How long does the work take?", jawabEN: "Usually 2-4 days, depending on the queue and complexity." },
+            { tanya: "Bisa revisi ga?", jawab: "Bisa! Revisi minor maksimal 5x. Revisi mayor ada biaya tambahan.", tanyaEN: "Can I get revisions?", jawabEN: "Yes! Minor revisions up to 5x. Major changes incur an extra fee." }
         ];
-        const daftarUlasan = [];
 
-        // 3. BAHASA & TOS
         const translations = {
             id: {
-                nav_work: "Karya", nav_contact: "Kontak", nav_reviews: "Ulasan", nav_prices: "Harga", nav_about: "Tentang", back: "Kembali",
-                title_work: "Karya Terbaru", title_reviews: "Ulasan Klien", title_prices: "Harga Komisi", title_contact: "Kontak",
-                tos_title: "Ketentuan Layanan", copied: "Tersalin!", badge_open: "KOMISI BUKA", badge_closed: "KOMISI TUTUP", badge_prefix: "KOMISI",
-                context_order: "Tertarik? Yuk order di Discord!", btn_hire_me: "Hire Me", btn_join_discord: "Join Discord Server", working_hours: "Jam Kerja:",
-                nav_track: "Lacak", track_title: "Live Progress Tracker", track_desc: "Masukkan Username Discord kamu untuk melihat status pengerjaan.",
-                track_btn: "Lacak Pesanan", track_loading: "Mencari data...", track_notfound: "Pesanan atas nama tersebut tidak ditemukan!", track_take: "Ambil Hasil",
-                key_title: "Verifikasi Key", key_desc: "Masukkan Key yang diberikan via Discord untuk mendownload/melihat hasilmu.", key_btn: "Klaim Hasil", key_wrong: "Key yang kamu masukkan salah!"
+                nav_work: "Projects", nav_contact: "Community", nav_reviews: "Reviews", nav_prices: "Prices", nav_about: "About", back: "Kembali", subtitle: "Minecraft Render",
+                title_work: "Most Popular", title_reviews: "Client Reviews", title_prices: "Rates & Prices", title_contact: "Community",
+                tos_title: "Ketentuan Layanan", copied: "Tersalin!", badge_open: "BUKA", badge_closed: "TUTUP", badge_prefix: "",
+                context_order: "Order via Discord", btn_join_discord: "Join Discord Server", working_hours: "Jam Operasional:",
+                hero_cta_work: "Lihat Karya", hero_cta_track: "Lacak Pesanan",
+                nav_track: "Lacak", track_title: "Progress Tracker", track_desc: "Masukkan Username Discord kamu.",
+                track_btn: "Cari Data", track_notfound: "Data tidak ditemukan.", track_take: "Unduh Hasil",
+                key_title: "Verifikasi Key", key_desc: "Masukkan Key dari Discord.", key_btn: "Verifikasi", key_wrong: "Key Tidak Valid!",
+                nav_write_review: "Tulis Review", review_title: "Tulis Review", review_submit: "Kirim Review", review_rating_label: "Rating",
+                review_name_ph: "Nama Kamu", review_contact_ph: "Username Discord/IG (opsional)", review_msg_ph: "Ceritakan pengalaman kamu...",
+                review_ok: "Terima kasih! Review kamu sudah dikirim.", review_fail: "Gagal mengirim. Coba lagi nanti.",
+                review_need: "Isi nama, pesan, dan rating bintang dulu ya.", review_loading: "Mengirim...",
+                reviews_loading: "Memuat review...", reviews_empty: "Belum ada review. Jadilah yang pertama!", reviews_fail: "Gagal memuat review.",
+                sort_newest: "Terbaru", sort_top: "Rating Tertinggi", review_count_suffix: "ulasan",
+                gallery_empty: "Belum ada gambar untuk ditampilkan.", toast_deleted: "Review dihapus.", toast_delete_fail: "Gagal menghapus review."
             },
             en: {
-                nav_work: "Work", nav_contact: "Contact", nav_reviews: "Reviews", nav_prices: "Prices", nav_about: "About", back: "Back",
-                title_work: "Recent Works", title_reviews: "Client Reviews", title_prices: "Commission Prices", title_contact: "Contact",
-                tos_title: "Terms of Service", copied: "Copied!", badge_open: "COMMISSIONS OPEN", badge_closed: "COMMISSIONS CLOSED", badge_prefix: "COMMISSIONS",
-                context_order: "Interested? Let's order on Discord!", btn_hire_me: "Hire Me", btn_join_discord: "Join Discord Server", working_hours: "Working Hours:",
-                nav_track: "Track", track_title: "Live Progress Tracker", track_desc: "Enter your Discord Username to check your order status.",
-                track_btn: "Track Order", track_loading: "Searching data...", track_notfound: "Order for this username was not found!", track_take: "Take Result",
-                key_title: "Key Verification", key_desc: "Enter the Key provided via Discord to download/view your result.", key_btn: "Claim Result", key_wrong: "The Key you entered is incorrect!"
+                nav_work: "Projects", nav_contact: "Community", nav_reviews: "Reviews", nav_prices: "Prices", nav_about: "About", back: "Back", subtitle: "Minecraft Render",
+                title_work: "Most Popular", title_reviews: "Client Reviews", title_prices: "Rates & Prices", title_contact: "Community",
+                tos_title: "Terms of Service", copied: "Copied!", badge_open: "OPEN", badge_closed: "CLOSED", badge_prefix: "",
+                context_order: "Order via Discord", btn_join_discord: "Join Discord Server", working_hours: "Working Hours:",
+                hero_cta_work: "See Portfolio", hero_cta_track: "Track Order",
+                nav_track: "Track", track_title: "Progress Tracker", track_desc: "Enter your Discord Username.",
+                track_btn: "Search Data", track_notfound: "Data not found.", track_take: "Download File",
+                key_title: "Key Verification", key_desc: "Enter your Discord Key.", key_btn: "Verify", key_wrong: "Invalid Key!",
+                nav_write_review: "Write a Review", review_title: "Write a Review", review_submit: "Submit Review", review_rating_label: "Rating",
+                review_name_ph: "Your Name", review_contact_ph: "Discord/IG Username (optional)", review_msg_ph: "Tell us about your experience...",
+                review_ok: "Thank you! Your review has been submitted.", review_fail: "Something went wrong. Please try again.",
+                review_need: "Please fill in your name, message, and star rating.", review_loading: "Submitting...",
+                reviews_loading: "Loading reviews...", reviews_empty: "No reviews yet. Be the first!", reviews_fail: "Failed to load reviews.",
+                sort_newest: "Newest", sort_top: "Top Rated", review_count_suffix: "reviews",
+                gallery_empty: "No images to show yet.", toast_deleted: "Review deleted.", toast_delete_fail: "Failed to delete review."
             }
         };
 
-        const aboutBio = { id: `Halo! Aku adalah desainer grafis yang fokus pada pembuatan <strong>3D render</strong> dan <strong>thumbnail Minecraft</strong>. Aku udah sering ngerjain project buat Youtuber SMP, Bedwars, dan minigames lainnya.`, en: `Hi! I'm a graphic designer focused on <strong>3D renders</strong> and <strong>Minecraft thumbnails</strong>. I've worked on plenty of projects for SMP, Bedwars, and other minigame YouTubers.` };
-
+        const aboutBio = { id: `Desainer grafis yang berfokus pada pembuatan <strong>3D render</strong> dan <strong>thumbnail Minecraft</strong> minimalis untuk kreator konten.`, en: `Graphic designer focusing on minimalist <strong>3D renders</strong> and <strong>Minecraft thumbnails</strong> for content creators.` };
         const tosContent = {
-            id: `<h4>1. Pemesanan</h4><p>Pesanan dianggap sah setelah pembayaran (DP/lunas) dikonfirmasi. Detail request wajib disertakan saat checkout.</p><h4>2. Pembayaran</h4><p>Pembayaran dapat dilakukan via Paypal, Qris.</p><h4>3. Waktu Pengerjaan</h4><p>Estimasi pengerjaan 2-4 hari, tergantung antrean dan kompleksitas.</p><h4>4. Revisi</h4><p>Revisi minor gratis maksimal 5x. Revisi mayor dikenakan biaya tambahan.</p><h4>5. Hak Penggunaan</h4><p>Klien berhak menggunakan hasil untuk keperluan channel/pribadi. Tidak boleh diklaim karya sendiri.</p><h4>6. Pembatalan</h4><p>Refund penuh jika dibatalkan sebelum pengerjaan. Tidak ada refund untuk hasil yang sudah selesai.</p>`,
-            en: `<h4>1. Ordering</h4><p>An order is valid once payment is confirmed. Request details must be provided.</p><h4>2. Payment</h4><p>Payment via Paypal, Qris.</p><h4>3. Turnaround Time</h4><p>Estimated 2-4 days, depending on the queue.</p><h4>4. Revisions</h4><p>Minor revisions are free up to 5x. Major changes incur an extra fee.</p><h4>5. Usage Rights</h4><p>Client may use the result for channel/personal use. Cannot claim as own artwork.</p><h4>6. Cancellation</h4><p>Full refund if cancelled before work begins. No refunds for finished work.</p>`
+            id: `<p><strong>1. Pemesanan:</strong> Wajib DP/Lunas sebelum mulai.</p><p><strong>2. Pembayaran:</strong> Paypal, Qris.</p><p><strong>3. Waktu:</strong> 2-4 Hari pengerjaan.</p><p><strong>4. Revisi:</strong> Minor 5x Gratis. Mayor dikenakan biaya.</p><p><strong>5. Hak Cipta:</strong> Penggunaan personal/komersial channel, dilarang klaim karya.</p>`,
+            en: `<p><strong>1. Ordering:</strong> Payment upfront is required.</p><p><strong>2. Payment:</strong> Paypal, Qris.</p><p><strong>3. Time:</strong> 2-4 Days ETA.</p><p><strong>4. Revisions:</strong> 5x Minor Free. Major costs extra.</p><p><strong>5. Rights:</strong> Personal/channel use, do not claim as your own.</p>`
         };
 
         let currentLang = 'id';
 
-        // 4. PRELOADER & SETUP UTAMA
-        window.addEventListener('load', () => {
+        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('preloader').style.opacity = '0'; document.getElementById('preloader').style.visibility = 'hidden'; }, 800); });
+
+        /* ---------------- TOASTS ---------------- */
+        function showToast(message, type = 'info') {
+            const stack = document.getElementById('toast-stack');
+            const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+            const el = document.createElement('div');
+            el.className = `toast ${type}`;
+            el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${escapeHtml(message)}</span>`;
+            stack.appendChild(el);
             setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-            }, 1200); 
-        });
+                el.classList.add('leaving');
+                setTimeout(() => el.remove(), 250);
+            }, 3200);
+        }
+
+        /* ---------------- SCROLL TO TOP ---------------- */
+        function scrollToTop() {
+            const scroller = document.querySelector('.page-content.active .scrollable-content');
+            if (scroller) scroller.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function bindScrollWatcher(el) {
+            if (!el) return;
+            el.addEventListener('scroll', () => {
+                document.getElementById('btn-to-top').classList.toggle('visible', el.scrollTop > 240);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => { document.querySelectorAll('.scrollable-content').forEach(bindScrollWatcher); });
 
         function renderStatusBadge() {
             const badge = document.getElementById('status-badge');
-            const t = translations[currentLang];
-            const statusCek = statusKomisi.toUpperCase();
+            const t = translations[currentLang]; const statusCek = statusKomisi.toUpperCase();
             if(statusCek === "OPEN" || statusCek === "BUKA" || statusCek.includes("SLOT")) {
-                let textTampil = (statusCek === "OPEN" || statusCek === "BUKA") ? t.badge_open : `${t.badge_prefix} ${statusCek}`;
-                badge.innerHTML = `<div class="status-dot" style="background: var(--color-open); box-shadow: 0 0 10px var(--color-open);"></div> ${textTampil}`;
-                badge.style.borderColor = 'rgba(34, 197, 94, 0.4)'; badge.style.color = 'var(--color-open)';
+                badge.innerHTML = `<div class="status-dot" style="background: var(--moss); color: var(--moss);"></div> STATUS: ${(statusCek === "OPEN" || statusCek === "BUKA") ? t.badge_open : statusCek}`;
+                badge.style.color = 'var(--ink)';
             } else {
-                let textTampil = (statusCek === "CLOSED" || statusCek === "TUTUP") ? t.badge_closed : statusCek;
-                badge.innerHTML = `<div class="status-dot" style="background: var(--color-closed); box-shadow: 0 0 10px var(--color-closed);"></div> ${textTampil}`;
-                badge.style.borderColor = 'rgba(239, 68, 68, 0.4)'; badge.style.color = 'var(--color-closed)';
+                badge.innerHTML = `<div class="status-dot" style="background: var(--redstone); color: var(--redstone);"></div> STATUS: ${(statusCek === "CLOSED" || statusCek === "TUTUP") ? t.badge_closed : statusCek}`;
+                badge.style.color = 'var(--ink-muted)';
             }
         }
 
         const contactContainer = document.getElementById('contact-container');
-        contactContainer.innerHTML = `<button class="copy-btn" onclick="copyToClipboard('${kontakDiscord}', this)"><span><i class="fa-brands fa-discord" style="margin-right:8px;"></i> ${kontakDiscord}</span><i class="fa-regular fa-copy copy-icon"></i></button><button class="copy-btn" onclick="copyToClipboard('${kontakInstagram}', this)"><span><i class="fa-brands fa-instagram" style="margin-right:8px;"></i> ${kontakInstagram}</span><i class="fa-regular fa-copy copy-icon"></i></button>`;
+        contactContainer.innerHTML = `<button class="copy-btn" onclick="copyToClipboard('${kontakDiscord}', this)"><span>Discord: ${kontakDiscord}</span><i class="fa-regular fa-copy"></i></button><button class="copy-btn" onclick="copyToClipboard('${kontakInstagram}', this)"><span>Instagram: ${kontakInstagram}</span><i class="fa-regular fa-copy"></i></button>`;
 
         function copyToClipboard(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalHtml = btnElement.innerHTML;
-                btnElement.classList.add('copied');
-                btnElement.innerHTML = `<span><i class="fa-solid fa-check" style="margin-right:8px;"></i> ${translations[currentLang].copied}</span> <i class="fa-solid fa-check-double"></i>`;
-                setTimeout(() => { btnElement.classList.remove('copied'); btnElement.innerHTML = originalHtml; }, 2000);
+                btnElement.innerHTML = `<span style="color: var(--ember-deep);">${translations[currentLang].copied}</span> <i class="fa-solid fa-check" style="color: var(--ember-deep);"></i>`;
+                setTimeout(() => { btnElement.innerHTML = originalHtml; }, 2000);
             });
         }
 
-        // 5. FITUR TRACKER (LACAK PESANAN)
         const orderSteps = ["Drafting", "Posing", "Rendering", "Editing", "Selesai"];
         let userTrackData = null;
 
         function searchOrder() {
             const usernameInput = document.getElementById('track-username').value.trim();
             if(!usernameInput) return;
-
-            document.getElementById('btn-search-order').style.display = 'none';
-            document.getElementById('tracker-error').style.display = 'none';
-            document.getElementById('tracker-result').style.display = 'none';
-            document.getElementById('tracker-loading').style.display = 'block';
-
-            // Animasi Loading Palsu (1.5 detik mencari data)
+            document.getElementById('btn-search-order').style.display = 'none'; document.getElementById('tracker-error').style.display = 'none'; document.getElementById('tracker-result').style.display = 'none'; document.getElementById('tracker-loading').style.display = 'block';
             setTimeout(async () => {
                 try {
-                    // Membaca file orders.json
-                    const response = await fetch('orders.json');
-                    if (!response.ok) throw new Error("File tidak ditemukan");
-                    const data = await response.json();
-                    
-                    // Cek jika username ada di json
-                    if(data[usernameInput]) {
-                        userTrackData = data[usernameInput];
-                        renderProgressBar(userTrackData.status);
-                    } else {
-                        showTrackerError();
-                    }
-                } catch(e) {
-                    console.log(e);
-                    showTrackerError();
-                }
-            }, 1500);
+                    const response = await fetch('orders.json'); const data = await response.json();
+                    if(data[usernameInput]) { userTrackData = data[usernameInput]; renderProgressBar(userTrackData.status); } else { showTrackerError(); }
+                } catch(e) { showTrackerError(); }
+            }, 1200);
         }
 
         function renderProgressBar(currentStatus) {
-            document.getElementById('tracker-loading').style.display = 'none';
-            document.getElementById('btn-search-order').style.display = 'flex';
-            document.getElementById('tracker-result').style.display = 'block';
-            
-            let statusIndex = orderSteps.indexOf(currentStatus);
-            if(statusIndex === -1) statusIndex = 0; // Fallback
-
+            document.getElementById('tracker-loading').style.display = 'none'; document.getElementById('btn-search-order').style.display = 'block'; document.getElementById('tracker-result').style.display = 'block';
+            let statusIndex = orderSteps.indexOf(currentStatus); if(statusIndex === -1) statusIndex = 0;
             const container = document.getElementById('progress-bar-container');
-            let html = '';
-            
-            // Hitung lebar garis neon (berdasarkan status index)
-            let lineWidth = (statusIndex / (orderSteps.length - 1)) * 100;
-            html += `<div class="progress-line" style="width: ${lineWidth}%;"></div>`;
-
+            let html = `<div class="progress-line" style="width: ${(statusIndex / (orderSteps.length - 1)) * 100}%;"></div>`;
             orderSteps.forEach((step, index) => {
-                let stateClass = '';
-                let iconHtml = `<i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i>`;
-
-                if (index < statusIndex) {
-                    stateClass = 'completed';
-                    iconHtml = `<i class="fa-solid fa-check"></i>`;
-                } else if (index === statusIndex) {
-                    stateClass = 'active';
-                    if (step === 'Selesai') iconHtml = `<i class="fa-solid fa-check-double"></i>`;
-                    else iconHtml = `<i class="fa-solid fa-spinner fa-spin"></i>`;
-                }
-
-                html += `
-                    <div class="step ${stateClass}">
-                        <div class="step-icon">${iconHtml}</div>
-                        <span>${step}</span>
-                    </div>
-                `;
+                let stateClass = index < statusIndex ? 'completed' : (index === statusIndex ? 'active' : '');
+                let iconHtml = index < statusIndex ? `<i class="fa-solid fa-check"></i>` : (index === statusIndex && step !== 'Selesai' ? `<i class="fa-solid fa-spinner fa-spin"></i>` : `<i class="fa-solid fa-circle" style="font-size: 0.4rem;"></i>`);
+                if (step === 'Selesai' && index === statusIndex) iconHtml = `<i class="fa-solid fa-check-double"></i>`;
+                html += `<div class="step ${stateClass}"><div class="step-icon">${iconHtml}</div><span>${step}</span></div>`;
             });
-
             container.innerHTML = html;
-
-            // Jika status Selesai, munculkan tombol Ambil Hasil
-            if(currentStatus === 'Selesai') {
-                document.getElementById('action-ambil-hasil').style.display = 'block';
-            } else {
-                document.getElementById('action-ambil-hasil').style.display = 'none';
-            }
+            document.getElementById('action-ambil-hasil').style.display = currentStatus === 'Selesai' ? 'block' : 'none';
         }
 
-        function showTrackerError() {
-            document.getElementById('tracker-loading').style.display = 'none';
-            document.getElementById('btn-search-order').style.display = 'flex';
-            document.getElementById('tracker-error').style.display = 'block';
-        }
-
+        function showTrackerError() { document.getElementById('tracker-loading').style.display = 'none'; document.getElementById('btn-search-order').style.display = 'block'; document.getElementById('tracker-error').style.display = 'block'; }
         function verifyKey() {
             const inputKey = document.getElementById('track-key').value;
-            if(userTrackData && inputKey === userTrackData.key) {
-                document.getElementById('key-error').style.display = 'none';
-                window.open(userTrackData.result_url, '_blank');
-                closeModal('key-modal');
-                document.getElementById('track-key').value = '';
-            } else {
-                document.getElementById('key-error').style.display = 'block';
-            }
+            if(userTrackData && inputKey === userTrackData.key) { window.open(userTrackData.result_url, '_blank'); closeModal('key-modal'); document.getElementById('track-key').value = ''; showToast(currentLang === 'id' ? 'Key berhasil diverifikasi!' : 'Key verified!', 'success'); }
+            else { document.getElementById('key-error').style.display = 'block'; }
         }
 
-        // 6. SISTEM MODAL MULTI
-        function openModal(modalId) { 
-            document.getElementById(modalId).style.display = 'flex'; 
-            if(modalId === 'tracker-modal') {
-                // Reset form saat dibuka
-                document.getElementById('track-username').value = '';
-                document.getElementById('tracker-result').style.display = 'none';
-                document.getElementById('tracker-error').style.display = 'none';
-            } else if (modalId === 'key-modal') {
-                document.getElementById('track-key').value = '';
-                document.getElementById('key-error').style.display = 'none';
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            if(modalId === 'tracker-modal' || modalId === 'key-modal') { document.querySelectorAll('.form-input').forEach(i => i.value = ''); document.getElementById('tracker-result').style.display = 'none'; document.getElementById('tracker-error').style.display = 'none'; document.getElementById('key-error').style.display = 'none'; }
+            if(modalId === 'review-modal') {
+                document.getElementById('review-name').value = '';
+                document.getElementById('review-contact').value = '';
+                document.getElementById('review-message').value = '';
+                document.getElementById('review-status').innerText = '';
+                selectedRating = 0; updateStarDisplay(); updateCharCount();
             }
+            const firstInput = document.querySelector(`#${modalId} input, #${modalId} textarea`);
+            if (firstInput) setTimeout(() => firstInput.focus(), 50);
         }
         function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
-        // 7. SISTEM PAGE, MENU, FAQ
-        function openPage(pageId) {
+        function closeAnyOpenOverlay() {
+            let closedSomething = false;
+            document.querySelectorAll('.custom-overlay').forEach(ov => {
+                if (getComputedStyle(ov).display !== 'none') { ov.style.display = 'none'; closedSomething = true; }
+            });
+            if (document.getElementById('lightbox').style.display === 'flex') { closeLightbox(); closedSomething = true; }
+            return closedSomething;
+        }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAnyOpenOverlay(); });
+
+        function openPage(pageId, btnElement = null) {
             document.getElementById('main-menu').classList.add('hidden');
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.getElementById('top-left-btns').style.opacity = '0';
-            setTimeout(() => document.getElementById('top-left-btns').style.display = 'none', 300);
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+
+            if (pageId === 'page-reviews') { loadAndRenderReviews(); }
         }
         function closePages() {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById('main-menu').classList.remove('hidden');
-            document.getElementById('top-left-btns').style.display = 'flex';
-            setTimeout(() => document.getElementById('top-left-btns').style.opacity = '1', 10);
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         }
 
         function renderFaq() {
-            const faqContainer = document.getElementById('faq-container');
-            faqContainer.innerHTML = '';
-            daftarFaq.forEach((faq) => {
-                const tanya = (currentLang === 'en' && faq.tanyaEN) ? faq.tanyaEN : faq.tanya;
-                const jawab = (currentLang === 'en' && faq.jawabEN) ? faq.jawabEN : faq.jawab;
-                faqContainer.innerHTML += `<div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-question"><span>${tanya}</span><i class="fa-solid fa-chevron-down faq-icon"></i></div><div class="faq-answer"><br>${jawab}</div></div>`;
+            const faqContainer = document.getElementById('faq-container'); faqContainer.innerHTML = '';
+            daftarFaq.forEach(faq => {
+                const tanya = currentLang === 'en' ? faq.tanyaEN : faq.tanya; const jawab = currentLang === 'en' ? faq.jawabEN : faq.jawab;
+                faqContainer.innerHTML += `<div class="faq-item" onclick="this.classList.toggle('active')"><div class="faq-question"><span>${tanya}</span><i class="fa-solid fa-chevron-down faq-icon"></i></div><div class="faq-answer">${jawab}</div></div>`;
             });
         }
 
+        /* ---------------- GALLERY (with skeleton + empty state) ---------------- */
         const containerGaleri = document.getElementById('portfolio-gallery');
-        for (let i = 1; i <= 30; i++) {
-            let img = new Image(); img.src = `P${i}.png`;
-            img.onload = () => { containerGaleri.innerHTML += `<div class="thumb-card" style="order:${i};"><img src="P${i}.png" onclick="openLightbox(this.src)"></div>`; };
-        }
+        (function renderGallery() {
+            const totalToTry = 30;
+            let skeletonHtml = '';
+            for (let s = 0; s < 6; s++) skeletonHtml += `<div class="thumb-skeleton"></div>`;
+            containerGaleri.innerHTML = skeletonHtml;
 
-        // 8. I18N, BAHASA, JAM KERJA
-        function applyStaticI18n() {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) el.innerHTML = translations[currentLang][key];
+            let loadedCount = 0;
+            const promises = [];
+            for (let i = 1; i <= totalToTry; i++) {
+                promises.push(new Promise((resolve) => {
+                    const img = new Image();
+                    img.src = `P${i}.png`;
+                    img.onload = () => {
+                        if (loadedCount === 0) containerGaleri.innerHTML = '';
+                        loadedCount++;
+                        containerGaleri.insertAdjacentHTML('beforeend', `
+                        <div class="thumb-card" style="order:${i};" onclick="openLightbox('P${i}.png')">
+                            <img src="P${i}.png" alt="Render ${i}" loading="lazy">
+                            <div class="thumb-overlay">
+                                <span>Render ${i}</span>
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                        </div>`);
+                        resolve(true);
+                    };
+                    img.onerror = () => resolve(false);
+                }));
+            }
+            Promise.allSettled(promises).then(() => {
+                if (loadedCount === 0) {
+                    containerGaleri.innerHTML = `<div class="empty-state"><i class="fa-regular fa-image"></i><p>${translations[currentLang].gallery_empty}</p></div>`;
+                }
             });
+        })();
+
+        function applyStaticI18n() {
+            document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.innerHTML = translations[currentLang][key]; });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const key = el.getAttribute('data-i18n-placeholder'); if (translations[currentLang][key]) el.placeholder = translations[currentLang][key]; });
         }
         function setLanguage(lang) {
             currentLang = lang; document.documentElement.lang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
             applyStaticI18n(); renderStatusBadge(); renderFaq();
-            document.getElementById('about-bio-text').innerHTML = aboutBio[currentLang];
-            document.getElementById('tos-body-content').innerHTML = tosContent[currentLang];
+            document.getElementById('about-bio-text').innerHTML = aboutBio[currentLang]; document.getElementById('tos-body-content').innerHTML = tosContent[currentLang];
+            if (document.getElementById('page-reviews').classList.contains('active')) { renderRatingSummary(__lastLoadedReviews); renderReviewsList(__lastLoadedReviews); }
         }
         setLanguage('id');
 
         function renderWorkingHours() {
-            const now = new Date();
-            const startTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0));
-            const endTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 15, 0));
-            const opts = { hour: '2-digit', minute: '2-digit', hour12: true };
-            document.getElementById('working-hours-text').innerText = `${startTime.toLocaleTimeString('en-US', opts)} - ${endTime.toLocaleTimeString('en-US', opts)}`;
+            const now = new Date(); const startTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0)); const endTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 15, 0));
+            const opts = { hour: '2-digit', minute: '2-digit', hour12: true }; document.getElementById('working-hours-text').innerText = `${startTime.toLocaleTimeString('en-US', opts)} - ${endTime.toLocaleTimeString('en-US', opts)}`;
         }
         renderWorkingHours();
 
-        // 9. LIGHTBOX & CONTEXT MENU
         function toggleBeforeAfter() {
-            if (document.getElementById('ba-toggle-input').checked) {
-                document.getElementById('lightbox-img').style.display = 'none';
-                document.getElementById('ba-container').style.display = 'block';
-                updateSlider(50); document.getElementById('ba-range').value = 50;
-            } else {
-                document.getElementById('lightbox-img').style.display = 'block';
-                document.getElementById('ba-container').style.display = 'none';
-            }
+            if (document.getElementById('ba-toggle-input').checked) { document.getElementById('lightbox-img').style.display = 'none'; document.getElementById('ba-container').style.display = 'block'; updateSlider(50); document.getElementById('ba-range').value = 50; }
+            else { document.getElementById('lightbox-img').style.display = 'block'; document.getElementById('ba-container').style.display = 'none'; }
         }
-        function updateSlider(val) {
-            document.getElementById('ba-img-before').style.clipPath = `polygon(0 0, ${val}% 0, ${val}% 100%, 0 100%)`;
-            document.getElementById('ba-line').style.left = `${val}%`;
-        }
+        function updateSlider(val) { document.getElementById('ba-img-before').style.clipPath = `polygon(0 0, ${val}% 0, ${val}% 100%, 0 100%)`; document.getElementById('ba-line').style.left = `${val}%`; }
         function openLightbox(imgSrc) {
             document.getElementById('ba-toggle-input').checked = false; toggleBeforeAfter();
             let match = imgSrc.match(/P(\d+)\.png$/i);
             if (match) {
                 let beforeSrc = imgSrc.replace(/P(\d+)\.png$/i, `PB$1.png`);
-                document.getElementById('lightbox-img').src = imgSrc;
-                document.getElementById('ba-img-after').src = imgSrc;
-                document.getElementById('ba-img-before').src = beforeSrc;
+                document.getElementById('lightbox-img').src = imgSrc; document.getElementById('ba-img-after').src = imgSrc; document.getElementById('ba-img-before').src = beforeSrc;
                 let imgTest = new Image(); imgTest.src = beforeSrc;
                 imgTest.onload = () => document.getElementById('ba-toggle-container').style.display = 'flex';
                 imgTest.onerror = () => document.getElementById('ba-toggle-container').style.display = 'none';
-            } else {
-                document.getElementById('lightbox-img').src = imgSrc;
-                document.getElementById('ba-toggle-container').style.display = 'none';
-            }
+            } else { document.getElementById('lightbox-img').src = imgSrc; document.getElementById('ba-toggle-container').style.display = 'none'; }
             document.getElementById('lightbox').style.display = 'flex';
         }
         function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
 
-        const contextMenu = document.getElementById('custom-context-menu');
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault(); 
-            let x = e.clientX, y = e.clientY;
-            contextMenu.style.display = 'block';
-            if (x + contextMenu.offsetWidth > window.innerWidth) x = window.innerWidth - contextMenu.offsetWidth - 10;
-            if (y + contextMenu.offsetHeight > window.innerHeight) y = window.innerHeight - contextMenu.offsetHeight - 10;
-            contextMenu.style.left = `${x}px`; contextMenu.style.top = `${y}px`;
-        });
-        document.addEventListener('click', () => contextMenu.style.display = 'none');
+        /* =========================================================
+           RATING / REVIEW SYSTEM
+        ========================================================= */
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str == null ? '' : String(str);
+            return div.innerHTML;
+        }
 
-        // ANIMASI PARTIKEL
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 15; i++) {
-            let particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
-            particle.style.animationDelay = (Math.random() * 5) + 's';
-            particle.style.transform = `scale(${Math.random() * 0.5 + 0.5}) rotate(30deg)`;
-            particlesContainer.appendChild(particle);
+        async function jsonbinFetchReviews() {
+            const res = await fetch(JSONBIN_CONFIG.baseUrl + JSONBIN_CONFIG.binId + '/latest', {
+                headers: { 'X-Master-Key': JSONBIN_CONFIG.apiKey }
+            });
+            if (!res.ok) throw new Error('Gagal mengambil data dari JSONBin');
+            const data = await res.json();
+            return (data.record && data.record.reviews) || [];
+        }
+
+        async function jsonbinSaveReviews(reviews) {
+            const res = await fetch(JSONBIN_CONFIG.baseUrl + JSONBIN_CONFIG.binId, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_CONFIG.apiKey },
+                body: JSON.stringify({ reviews })
+            });
+            if (!res.ok) throw new Error('Gagal menyimpan data ke JSONBin');
+            return res.json();
+        }
+
+        let selectedRating = 0;
+        document.querySelectorAll('#review-star-picker i').forEach(star => {
+            star.addEventListener('click', () => { selectedRating = parseInt(star.getAttribute('data-star')); updateStarDisplay(); });
+            star.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectedRating = parseInt(star.getAttribute('data-star')); updateStarDisplay(); } });
+            star.addEventListener('mouseenter', () => { const v = parseInt(star.getAttribute('data-star')); document.querySelectorAll('#review-star-picker i').forEach(s => s.classList.toggle('hovered', parseInt(s.getAttribute('data-star')) <= v)); });
+            star.addEventListener('mouseleave', () => { document.querySelectorAll('#review-star-picker i').forEach(s => s.classList.remove('hovered')); });
+        });
+        function updateStarDisplay() {
+            document.querySelectorAll('#review-star-picker i').forEach(star => {
+                const val = parseInt(star.getAttribute('data-star'));
+                star.style.color = val <= selectedRating ? 'var(--gold)' : '#d8c9ba';
+                star.setAttribute('aria-checked', val === selectedRating ? 'true' : 'false');
+            });
+        }
+        function updateCharCount() {
+            const el = document.getElementById('review-message');
+            document.getElementById('review-char-count').innerText = `${el.value.length}/500`;
+        }
+
+        async function submitReview() {
+            const t = translations[currentLang];
+            const name = document.getElementById('review-name').value.trim();
+            const contact = document.getElementById('review-contact').value.trim();
+            const message = document.getElementById('review-message').value.trim();
+            const statusEl = document.getElementById('review-status');
+
+            if (!name || !message || selectedRating === 0) {
+                statusEl.style.color = 'var(--redstone-deep)';
+                statusEl.innerText = t.review_need;
+                return;
+            }
+
+            statusEl.style.color = 'var(--ink-muted)';
+            statusEl.innerText = t.review_loading;
+
+            try {
+                const reviews = await jsonbinFetchReviews();
+                reviews.push({
+                    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+                    name: name,
+                    contact: contact,
+                    rating: selectedRating,
+                    message: message,
+                    date: new Date().toISOString()
+                });
+                await jsonbinSaveReviews(reviews);
+
+                statusEl.style.color = 'var(--moss-deep)';
+                statusEl.innerText = t.review_ok;
+                showToast(t.review_ok, 'success');
+                loadAndRenderReviews();
+                setTimeout(() => closeModal('review-modal'), 1500);
+            } catch (e) {
+                statusEl.style.color = 'var(--redstone-deep)';
+                statusEl.innerText = t.review_fail;
+                showToast(t.review_fail, 'error');
+            }
+        }
+
+        let __lastLoadedReviews = [];
+        let reviewSortMode = 'newest';
+
+        function setReviewSort(mode) {
+            reviewSortMode = mode;
+            renderReviewsList(__lastLoadedReviews);
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === mode));
+        }
+
+        function sortedReviews(reviews) {
+            const list = [...reviews];
+            if (reviewSortMode === 'top') list.sort((a, b) => b.rating - a.rating || new Date(b.date) - new Date(a.date));
+            else list.sort((a, b) => new Date(b.date) - new Date(a.date));
+            return list;
+        }
+
+        function renderRatingSummary(reviews) {
+            const t = translations[currentLang];
+            const box = document.getElementById('rating-summary-container');
+            if (!reviews.length) { box.innerHTML = ''; return; }
+            const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+            const roundedStars = Math.round(avg);
+            box.innerHTML = `
+                <div class="rating-summary">
+                    <div>
+                        <div class="score">${avg.toFixed(1)}</div>
+                        <div class="score-stars">${'★'.repeat(roundedStars)}${'☆'.repeat(5 - roundedStars)}</div>
+                        <div class="score-count">${reviews.length} ${t.review_count_suffix}</div>
+                    </div>
+                    <div class="sort-controls">
+                        <button class="sort-btn ${reviewSortMode === 'newest' ? 'active' : ''}" data-sort="newest" onclick="setReviewSort('newest')">${t.sort_newest}</button>
+                        <button class="sort-btn ${reviewSortMode === 'top' ? 'active' : ''}" data-sort="top" onclick="setReviewSort('top')">${t.sort_top}</button>
+                    </div>
+                </div>`;
+        }
+
+        function renderReviewsList(reviews) {
+            const t = translations[currentLang];
+            const container = document.getElementById('reviews-container');
+            if (!reviews.length) { container.innerHTML = `<p style="color:var(--ink-muted); text-align:center;">${t.reviews_empty}</p>`; return; }
+            const list = sortedReviews(reviews);
+            container.innerHTML = list.map(r => `
+                <div class="review-card">
+                    <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                    <p class="review-text">"${escapeHtml(r.message)}"</p>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">- ${escapeHtml(r.name)}</div>
+                        <div class="reviewer-date">${new Date(r.date).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadAndRenderReviews() {
+            const t = translations[currentLang];
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = `<p style="color:var(--ink-muted); text-align:center;">${t.reviews_loading}</p>`;
+            document.getElementById('rating-summary-container').innerHTML = '';
+            try {
+                const reviews = await jsonbinFetchReviews();
+                __lastLoadedReviews = reviews;
+                renderRatingSummary(reviews);
+                renderReviewsList(reviews);
+            } catch (e) {
+                container.innerHTML = `<p style="color: var(--redstone-deep); text-align:center;">${t.reviews_fail}</p>`;
+            }
+        }
+
+        /* =========================================================
+           ADMIN PANEL
+        ========================================================= */
+        let footerClickCount = 0;
+        let footerClickTimer = null;
+        document.getElementById('site-footer').addEventListener('click', () => {
+            footerClickCount++;
+            clearTimeout(footerClickTimer);
+            footerClickTimer = setTimeout(() => { footerClickCount = 0; }, 2000);
+            if (footerClickCount >= 5) {
+                footerClickCount = 0;
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-login-error').style.display = 'none';
+                openModal('admin-login-modal');
+            }
+        });
+
+        let __adminReviews = [];
+
+        function adminLogin() {
+            const pass = document.getElementById('admin-password').value;
+            const errEl = document.getElementById('admin-login-error');
+            if (pass === ADMIN_PASSWORD) {
+                closeModal('admin-login-modal');
+                document.getElementById('admin-password').value = '';
+                openAdminPanel();
+            } else {
+                errEl.style.display = 'block';
+            }
+        }
+
+        async function openAdminPanel() {
+            openModal('admin-panel-modal');
+            const list = document.getElementById('admin-review-list');
+            list.innerHTML = '<p style="color:var(--ink-muted);">Loading...</p>';
+            try {
+                const reviews = await jsonbinFetchReviews();
+                __adminReviews = reviews;
+                if (!reviews.length) { list.innerHTML = '<p style="color:var(--ink-muted);">Belum ada review.</p>'; return; }
+                reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+                list.innerHTML = reviews.map(r => `
+                    <div class="review-card">
+                        <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                        <p class="review-text">${escapeHtml(r.message)}</p>
+                        <div style="margin-top: 12px; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6;">
+                            <strong style="color:var(--ink);">${escapeHtml(r.name)}</strong>${r.contact ? ' — ' + escapeHtml(r.contact) : ' — (tanpa kontak)'}<br>
+                            ${new Date(r.date).toLocaleString()}
+                        </div>
+                        <button class="hero-btn" style="background: var(--redstone); padding: 9px 16px; font-size: 0.8rem; margin-top: 15px;" onclick="deleteReview('${r.id}')">
+                            <i class="fa-solid fa-trash"></i>Hapus
+                        </button>
+                    </div>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<p style="color: var(--redstone-deep);">Gagal memuat data.</p>';
+            }
+        }
+
+        async function deleteReview(id) {
+            if (!confirm('Hapus review ini? Aksi ini tidak bisa dibatalkan.')) return;
+            try {
+                const filtered = __adminReviews.filter(r => r.id !== id);
+                await jsonbinSaveReviews(filtered);
+                showToast(translations[currentLang].toast_deleted, 'success');
+                openAdminPanel();
+            } catch (e) {
+                showToast(translations[currentLang].toast_delete_fail, 'error');
+            }
         }
     </script>
 </body>
